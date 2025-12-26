@@ -1,45 +1,61 @@
-# Actual SQL queries — Create, Read, Update, Delete (CRUD)
+# Unified SQL queries — Students & Teachers
 
 from datetime import datetime
 from .connection import get_connection
 
-def db_get_all():
+
+# ===========================
+# STUDENT QUERIES
+# ===========================
+
+def student_get_all():
     conn = get_connection()
     rows = conn.execute("SELECT * FROM students ORDER BY id DESC").fetchall()
     conn.close()
     return [dict(r) for r in rows]
 
-def db_get_one(student_id):
+
+def student_get_one(student_id):
     conn = get_connection()
     row = conn.execute("SELECT * FROM students WHERE id = ?", (student_id,)).fetchone()
     conn.close()
     return dict(row) if row else None
 
-def db_create(data):
+
+def student_create(data):
     conn = get_connection()
     now = datetime.now().isoformat()
     cur = conn.execute(
-        "INSERT INTO students (name, email, course, year, created_at) VALUES (?, ?, ?, ?, ?)",
+        """
+        INSERT INTO students (name, email, course, year, created_at)
+        VALUES (?, ?, ?, ?, ?)
+        """,
         (data["name"], data["email"], data["course"], data["year"], now)
     )
     conn.commit()
     new_id = cur.lastrowid
     conn.close()
-    return db_get_one(new_id)
+    return student_get_one(new_id)
 
-def db_update(student_id, data):
+
+def student_update(student_id, data):
     conn = get_connection()
     now = datetime.now().isoformat()
-    conn.execute("""
-        UPDATE students SET name=?, email=?, course=?, year=?, updated_at=?
+    conn.execute(
+        """
+        UPDATE students
+        SET name=?, email=?, course=?, year=?, updated_at=?
         WHERE id=?
-    """, (data["name"], data["email"], data["course"], data["year"], now, student_id))
+        """,
+        (data["name"], data["email"], data["course"], data["year"], now, student_id)
+    )
     conn.commit()
     conn.close()
-    return db_get_one(student_id)
+    return student_get_one(student_id)
 
-def db_delete(student_id):
-    student = db_get_one(student_id)
+
+def student_delete(student_id):
+    student = student_get_one(student_id)
     if not student:
         return None
 
@@ -49,24 +65,27 @@ def db_delete(student_id):
     conn.close()
     return student
 
-# # Actual SQL queries — Create, Read, Update, Delete (CRUD)
 
-# from datetime import datetime
-# from .teacher_db import get_connection
 
-def db_get_all():
+# ===========================
+# TEACHER QUERIES
+# ===========================
+
+def teacher_get_all():
     conn = get_connection()
     rows = conn.execute("SELECT * FROM teachers ORDER BY id DESC").fetchall()
     conn.close()
     return [dict(r) for r in rows]
 
-def db_get_one(teacher_id):
+
+def teacher_get_one(teacher_id):
     conn = get_connection()
     row = conn.execute("SELECT * FROM teachers WHERE id = ?", (teacher_id,)).fetchone()
     conn.close()
     return dict(row) if row else None
 
-def db_create(data):
+
+def teacher_create(data):
     conn = get_connection()
     now = datetime.now().isoformat()
     cur = conn.execute(
@@ -79,9 +98,10 @@ def db_create(data):
     conn.commit()
     new_id = cur.lastrowid
     conn.close()
-    return db_get_one(new_id)
+    return teacher_get_one(new_id)
 
-def db_update(teacher_id, data):
+
+def teacher_update(teacher_id, data):
     conn = get_connection()
     now = datetime.now().isoformat()
     conn.execute(
@@ -94,10 +114,11 @@ def db_update(teacher_id, data):
     )
     conn.commit()
     conn.close()
-    return db_get_one(teacher_id)
+    return teacher_get_one(teacher_id)
 
-def db_delete(teacher_id):
-    teacher = db_get_one(teacher_id)
+
+def teacher_delete(teacher_id):
+    teacher = teacher_get_one(teacher_id)
     if not teacher:
         return None
 

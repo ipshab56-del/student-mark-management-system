@@ -1,0 +1,37 @@
+<div class="container mx-auto p-6 space-y-6">
+  <h1 class="text-3xl font-bold text-gray-800">Teacher Management</h1>
+
+  <!-- Form -->
+  <div class="card">
+    <form id="teacherForm" class="space-y-4">
+      <input id="t_name" class="input" placeholder="Name" required>
+      <input id="t_email" class="input" placeholder="Email" required>
+      <input id="t_subject" class="input" placeholder="Subject" required>
+
+      <div class="flex gap-3">
+        <button id="t_submitBtn" class="btn btn-primary" type="submit">Add Teacher</button>
+        <button id="t_cancelBtn" class="btn btn-muted" type="button" style="display:none;">Cancel</button>
+      </div>
+    </form>
+  </div>
+  
+<div id="loadingSpinner" style="display:none;" class="text-center py-4">
+  <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+</div>
+
+  <!-- Table -->
+  <div class="card">
+    <p id="noTeachers" class="text-gray-600" style="display:none;">No teachers found. Add one above.</p>
+
+    <table class="table min-w-full">
+      <thead>
+        <tr>
+          <th>ID</th><th>Name</th><th>Email</th><th>Subject</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="teachersTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+</div>

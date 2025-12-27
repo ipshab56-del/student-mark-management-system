@@ -1,31 +1,25 @@
-// Base API URL from env.js
-const API_URL = window.ENV.API_STUDENTS_URL;
+// Teacher API service
+const API_URL = window.ENV.API_TEACHERS_URL;
 
-// Helper: safely parse JSON or return null
+// Helper to safely parse JSON
 async function safeJson(res) {
-  try {
-    return await res.json();
-  } catch (_) {
-    return null;
-  }
+  try { return await res.json(); }
+  catch { return null; }
 }
 
-// Fetch all students
-export async function apiGetAll() {
+export async function apiTeacherGetAll() {
   const res = await fetch(API_URL);
   if (!res.ok) return [];
   return safeJson(res);
 }
 
-// Fetch one student by ID
-export async function apiGetOne(id) {
+export async function apiTeacherGetOne(id) {
   const res = await fetch(`${API_URL}/${id}`);
   if (!res.ok) return null;
   return safeJson(res);
 }
 
-// Create a new student
-export function apiCreate(data) {
+export function apiTeacherCreate(data) {
   return fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -33,8 +27,7 @@ export function apiCreate(data) {
   });
 }
 
-// Update a student
-export function apiUpdate(id, data) {
+export function apiTeacherUpdate(id, data) {
   return fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
@@ -42,7 +35,6 @@ export function apiUpdate(id, data) {
   });
 }
 
-// Delete a student
-export function apiDelete(id) {
+export function apiTeacherDelete(id) {
   return fetch(`${API_URL}/${id}`, { method: "DELETE" });
 }

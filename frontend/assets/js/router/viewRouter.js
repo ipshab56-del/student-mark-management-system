@@ -1,4 +1,5 @@
 import { initStudentController } from "../controllers/studentController.js";
+import { initTeacherController } from "../controllers/teacherController.js";
 
 // Load a view into #app container
 async function loadView(path) {
@@ -6,8 +7,9 @@ async function loadView(path) {
   document.querySelector("#app").innerHTML = html;
 }
 
-// Decide which view to load based on URL
+// Handle page routing based on the URL
 export async function router() {
+  console.log("ROUTER: page =", window.location.pathname);
   const path = window.location.pathname;
 
   if (path === "/" || path === "/home") {
@@ -16,7 +18,12 @@ export async function router() {
 
   else if (path === "/students") {
     await loadView("/frontend/pages/students.html");
-    initStudentController();
+    initStudentController();  // <-- runs controller after rendering page
+  }
+
+  else if (path === "/teachers") {
+    await loadView("/frontend/pages/teachers.html");
+    initTeacherController();
   }
 
   else {
@@ -24,16 +31,23 @@ export async function router() {
   }
 }
 
-// Make links work without page reload
+// Allow SPA navigation without full page reload
 export function initRouterEvents() {
   document.addEventListener("click", (e) => {
-    if (e.target.matches("[data-link]")) {
+    const link = e.target.closest("[data-link]"); // supports nested elements
+    if (link) {
       e.preventDefault();
-      history.pushState(null, "", e.target.href);
+      history.pushState(null, "", link.href);
       router();
     }
   });
 
-  // Back/forward buttons support
+  // Back/forward browser navigation
   window.addEventListener("popstate", router);
 }
+
+// 🚀 Load the correct route when the page initially loads
+window.addEventListener("DOMContentLoaded", () => {
+  initRouterEvents();  // enable SPA navigation
+  router();            // load correct page immediately
+});

@@ -16,6 +16,8 @@ import { $, createElement } from "../utils/dom.js";
 // Setup event listeners and load initial data
 // Initialize the main logic and set up all necessary event listeners
 export function initStudentController() {
+  console.log("CONTROLLER: student controller initialized");
+
   // Start by fetching and displaying all student data immediately upon load
   loadStudents();
 
@@ -57,6 +59,8 @@ export function initStudentController() {
 
 // Fetch all student data from the API and update the user interface
 export async function loadStudents() {
+  console.log("LOAD: fetching students from API...");
+
   // Get references to the loading spinner and the main data table elements
   const spinner = $("loadingSpinner");
   const table = $("studentsTableContainer");

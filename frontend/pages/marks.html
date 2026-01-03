@@ -1,27 +1,41 @@
-<div class="container mx-auto p-6 space-y-6">
-  <h1 class="text-3xl font-bold text-gray-800">Mark Management</h1>
+<div class="container mx-auto p-8 space-y-8">
+  <h1 class="page-title text-center">📊 Mark Management</h1>
 
   <!-- Form -->
-  <div class="card">
-    <form id="markForm" class="space-y-4">
+  <div class="card form-section">
+    <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+      <span class="text-2xl">✨</span> Add New Mark
+    </h2>
+    <form id="markForm" class="space-y-6">
       <select id="m_student_id" class="input" required>
-        <option value="">Select Student</option>
+        <option value="">👨🎓 Select Student</option>
       </select>
-      <input id="m_subject" class="input" placeholder="Subject" required>
-      <input id="m_marks" class="input" type="number" placeholder="Marks" min="0" max="100" required>
+      <input id="m_subject" class="input" placeholder="📚 Subject" required>
+      <input id="m_marks" class="input" type="number" placeholder="📊 Marks (0-100)" min="0" max="100" required>
 
-      <div class="flex gap-3">
-        <button id="m_submitBtn" class="btn btn-primary" type="submit">Add Mark</button>
-        <button id="m_cancelBtn" class="btn btn-muted" type="button" style="display:none;">Cancel</button>
+      <div class="flex gap-4">
+        <button id="m_submitBtn" class="btn btn-primary" type="submit">
+          <span>➕</span> Add Mark
+        </button>
+        <button id="m_cancelBtn" class="btn btn-muted" type="button" style="display:none;">
+          ❌ Cancel
+        </button>
       </div>
     </form>
   </div>
 
   <!-- Table -->
-  <div class="card">
-    <p id="noMarks" class="text-gray-600" style="display:none;">No marks found. Add one above.</p>
+  <div class="table-section">
+    <div class="p-6">
+      <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📋</span> Marks List
+      </h2>
+      <p id="noMarks" class="text-gray-600 text-center py-8" style="display:none;">
+        😢 No marks found. Add one above.
+      </p>
+    </div>
 
-    <table class="table min-w-full">
+    <table class="table">
       <thead>
         <tr>
           <th>ID</th><th>Student</th><th>Subject</th><th>Marks</th><th>Actions</th>

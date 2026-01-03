@@ -1,43 +1,44 @@
-<!-- frontend/pages/students.html -->
-
-<div class="container mx-auto p-6 space-y-6">
-
-  <h1 class="text-3xl font-bold text-gray-800">Student Management</h1>
+<div class="container mx-auto p-8 space-y-8">
+  <h1 class="page-title text-center">👨🎓 Student Management</h1>
 
   <!-- STUDENT FORM -->
-  <div class="card">
-    <form id="studentForm" class="space-y-4">
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input id="name" type="text" class="input" placeholder="Name" required>
-        <input id="email" type="email" class="input" placeholder="Email" required>
+  <div class="card form-section">
+    <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+      <span class="text-2xl">✨</span> Add New Student
+    </h2>
+    <form id="studentForm" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <input id="name" type="text" class="input" placeholder="👤 Full Name" required>
+        <input id="email" type="email" class="input" placeholder="📧 Email Address" required>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input id="course" type="text" class="input" placeholder="Course" required>
-        <input id="year" type="number" class="input" placeholder="Year" required>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <input id="course" type="text" class="input" placeholder="📚 Course" required>
+        <input id="year" type="number" class="input" placeholder="📅 Year" required>
       </div>
-
-      <div class="flex gap-3">
-        <button type="submit" id="submitBtn" class="btn btn-primary">Add Student</button>
-        <button type="button" id="cancelBtn" class="btn btn-muted" style="display:none;">Cancel</button>
+      <div class="flex gap-4">
+        <button type="submit" id="submitBtn" class="btn btn-primary flex items-center gap-2">
+          <span>➕</span> Add Student
+        </button>
+        <button type="button" id="cancelBtn" class="btn btn-muted" style="display:none;">
+          ❌ Cancel
+        </button>
       </div>
-
     </form>
   </div>
 
-
   <!-- STUDENT TABLE -->
-  <div class="card">
-
-    <!-- Message when no records -->
-    <p id="noStudents" class="text-gray-600" style="display:none;">
-      No students found. Add one above.
-    </p>
-
-    <!-- Table -->
+  <div class="table-section">
+    <div class="p-6">
+      <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📋</span> Students List
+      </h2>
+      <p id="noStudents" class="text-gray-600 text-center py-8" style="display:none;">
+        😢 No students found. Add one above.
+      </p>
+    </div>
+    
     <div id="studentsTableContainer">
-      <table class="table min-w-full">
+      <table class="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -51,10 +52,7 @@
         <tbody id="studentsTableBody"></tbody>
       </table>
     </div>
-
   </div>
 
-  <!-- Alert Container -->
   <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
-
 </div>

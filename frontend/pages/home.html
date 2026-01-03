@@ -1,26 +1,65 @@
-<div class="max-w-2xl mx-auto p-6">
+<div class="container mx-auto p-8 max-w-4xl">
+  <!-- Hero Section -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gray-800 mb-3">
+      EduManage Pro
+    </h1>
+    <p class="text-gray-600">
+      Manage your academic data efficiently
+    </p>
+  </div>
 
-  <h1 class="text-3xl font-bold mb-4 text-gray-800">Welcome</h1>
+  <!-- Main Navigation -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <a href="/students" data-link class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all text-center group">
+      <div class="text-4xl mb-3">👨🎓</div>
+      <h3 class="text-lg font-semibold text-gray-800">Students</h3>
+      <p class="text-sm text-gray-600 mt-2">Manage student records</p>
+    </a>
 
-  <p class="text-gray-600 mb-8 leading-relaxed">
-    This is the starting point of your Full-Stack learning journey.<br>
-    Choose what you want to explore:
-  </p>
+    <a href="/teachers" data-link class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all text-center group">
+      <div class="text-4xl mb-3">👩🏫</div>
+      <h3 class="text-lg font-semibold text-gray-800">Teachers</h3>
+      <p class="text-sm text-gray-600 mt-2">Manage teacher profiles</p>
+    </a>
 
-  <div class="space-y-4">
+    <a href="/marks" data-link class="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all text-center group">
+      <div class="text-4xl mb-3">📊</div>
+      <h3 class="text-lg font-semibold text-gray-800">Marks</h3>
+      <p class="text-sm text-gray-600 mt-2">Track performance</p>
+    </a>
+  </div>
 
-<a href="/students" data-link
-    class="block w-full px-4 py-3 text-center border border-gray-300 rounded hover:bg-gray-200 transition flex items-center justify-center gap-2">
-    <i class="fa-solid fa-users"></i>
-    Student App
-</a>
-
-<a href="/api/students" target="_blank"
-    class="block w-full px-4 py-3 text-center border border-gray-300 rounded hover:bg-gray-200 transition flex items-center justify-center gap-2">
-    <i class="fa-solid fa-code"></i>
-    Raw JSON API
-</a>
-
-
+  <!-- Quick Stats -->
+  <div class="bg-white rounded-xl p-6 shadow-lg">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Overview</h2>
+    <div class="grid grid-cols-3 gap-4 text-center">
+      <div>
+        <div class="text-xl font-bold text-gray-800" id="studentCount">-</div>
+        <div class="text-sm text-gray-600">Students</div>
+      </div>
+      <div>
+        <div class="text-xl font-bold text-gray-800" id="teacherCount">-</div>
+        <div class="text-sm text-gray-600">Teachers</div>
+      </div>
+      <div>
+        <div class="text-xl font-bold text-gray-800" id="markCount">-</div>
+        <div class="text-sm text-gray-600">Records</div>
+      </div>
+    </div>
   </div>
 </div>
+
+<script>
+if (window.location.pathname === '/' || window.location.pathname === '/home') {
+  Promise.all([
+    fetch('/api/students').then(r => r.json()).catch(() => []),
+    fetch('/api/teachers').then(r => r.json()).catch(() => []),
+    fetch('/api/marks').then(r => r.json()).catch(() => [])
+  ]).then(([students, teachers, marks]) => {
+    document.getElementById('studentCount').textContent = students.length || 0;
+    document.getElementById('teacherCount').textContent = teachers.length || 0;
+    document.getElementById('markCount').textContent = marks.length || 0;
+  });
+}
+</script>

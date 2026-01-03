@@ -1,29 +1,44 @@
-<div class="container mx-auto p-6 space-y-6">
-  <h1 class="text-3xl font-bold text-gray-800">Teacher Management</h1>
+<div class="container mx-auto p-8 space-y-8">
+  <h1 class="page-title text-center">👩🏫 Teacher Management</h1>
 
   <!-- Form -->
-  <div class="card">
-    <form id="teacherForm" class="space-y-4">
-      <input id="t_name" class="input" placeholder="Name" required>
-      <input id="t_email" class="input" placeholder="Email" required>
-      <input id="t_subject" class="input" placeholder="Subject" required>
+  <div class="card form-section">
+    <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+      <span class="text-2xl">✨</span> Add New Teacher
+    </h2>
+    <form id="teacherForm" class="space-y-6">
+      <input id="t_name" class="input" placeholder="👤 Full Name" required>
+      <input id="t_email" class="input" placeholder="📧 Email Address" required>
+      <input id="t_subject" class="input" placeholder="📚 Subject" required>
 
-      <div class="flex gap-3">
-        <button id="t_submitBtn" class="btn btn-primary" type="submit">Add Teacher</button>
-        <button id="t_cancelBtn" class="btn btn-muted" type="button" style="display:none;">Cancel</button>
+      <div class="flex gap-4">
+        <button id="t_submitBtn" class="btn btn-primary" type="submit">
+          <span>➕</span> Add Teacher
+        </button>
+        <button id="t_cancelBtn" class="btn btn-muted" type="button" style="display:none;">
+          ❌ Cancel
+        </button>
       </div>
     </form>
   </div>
   
-<div id="loadingSpinner" style="display:none;" class="text-center py-4">
-  <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
-</div>
+  <div id="loadingSpinner" style="display:none;" class="text-center py-8">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-500 mx-auto"></div>
+    <p class="mt-2 text-gray-600">Loading...</p>
+  </div>
 
   <!-- Table -->
-  <div class="card">
-    <p id="noTeachers" class="text-gray-600" style="display:none;">No teachers found. Add one above.</p>
+  <div class="table-section">
+    <div class="p-6">
+      <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2">
+        <span class="text-2xl">📋</span> Teachers List
+      </h2>
+      <p id="noTeachers" class="text-gray-600 text-center py-8" style="display:none;">
+        😢 No teachers found. Add one above.
+      </p>
+    </div>
 
-    <table class="table min-w-full">
+    <table class="table">
       <thead>
         <tr>
           <th>ID</th><th>Name</th><th>Email</th><th>Subject</th><th>Actions</th>

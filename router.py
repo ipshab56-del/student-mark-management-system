@@ -21,6 +21,14 @@ from controllers.teachers import (
     delete_teacher,
 )
 
+from controllers.marks import (
+    get_all_marks,
+    get_mark,
+    create_mark,
+    update_mark,
+    delete_mark,
+)
+
 from core.static import serve_static
 from core.responses import send_404
 from core.middleware import add_cors_headers
@@ -29,7 +37,7 @@ from core.middleware import add_cors_headers
 # -------------------------------
 # UI ROUTES
 # -------------------------------
-FRONTEND_ROUTES = {"/", "/home", "/students", "/teachers", "/docs"}
+FRONTEND_ROUTES = {"/", "/home", "/students", "/teachers", "/marks", "/docs"}
 
 def handle_ui_routes(handler, path):
     """Serve SPA frontend pages and static files."""
@@ -129,11 +137,21 @@ class TeacherRouter(BaseHTTPRequestHandler):
             if teacher_id.isdigit():
                 return get_teacher(self, int(teacher_id))
 
+        if path == "/api/marks":
+            return get_all_marks(self)
+
+        if path.startswith("/api/marks/"):
+            mark_id = path.split("/")[-1]
+            if mark_id.isdigit():
+                return get_mark(self, int(mark_id))
+
         return send_404(self)
 
     def do_POST(self):
         if self.path == "/api/teachers":
             return create_teacher(self)
+        if self.path == "/api/marks":
+            return create_mark(self)
         return send_404(self)
 
     def do_PUT(self):
@@ -142,6 +160,10 @@ class TeacherRouter(BaseHTTPRequestHandler):
             teacher_id = path.split("/")[-1]
             if teacher_id.isdigit():
                 return update_teacher(self, int(teacher_id))
+        if path.startswith("/api/marks/"):
+            mark_id = path.split("/")[-1]
+            if mark_id.isdigit():
+                return update_mark(self, int(mark_id))
         return send_404(self)
 
     def do_DELETE(self):
@@ -150,6 +172,10 @@ class TeacherRouter(BaseHTTPRequestHandler):
             teacher_id = path.split("/")[-1]
             if teacher_id.isdigit():
                 return delete_teacher(self, int(teacher_id))
+        if path.startswith("/api/marks/"):
+            mark_id = path.split("/")[-1]
+            if mark_id.isdigit():
+                return delete_mark(self, int(mark_id))
         return send_404(self)
 
     def log_message(self, format, *args):
@@ -167,6 +193,10 @@ class MainRouter(BaseHTTPRequestHandler):
 
     def dispatch(self, method_name):
         path = self.path
+
+        # marks API routes
+        if path.startswith("/api/marks"):
+            return getattr(TeacherRouter, method_name)(self)
 
         # teacher API routes
         if path.startswith("/api/teachers"):

@@ -1,15 +1,23 @@
 import { initStudentController } from "../controllers/studentController.js";
 import { initTeacherController } from "../controllers/teacherController.js";
+import { initMarkController } from "../controllers/markController.js";
 
 // Load a view into #app container
 async function loadView(path) {
-  const html = await fetch(path).then(res => res.text());
-  document.querySelector("#app").innerHTML = html;
+  try {
+    const html = await fetch(path).then(res => res.text());
+    const appContainer = document.querySelector("#app");
+    if (appContainer) {
+      appContainer.innerHTML = html;
+    }
+  } catch (error) {
+    console.error('Error loading view:', error);
+    document.querySelector("#app").innerHTML = '<h1>Error loading page</h1>';
+  }
 }
 
 // Handle page routing based on the URL
 export async function router() {
-  console.log("ROUTER: page =", window.location.pathname);
   const path = window.location.pathname;
 
   if (path === "/" || path === "/home") {
@@ -18,12 +26,19 @@ export async function router() {
 
   else if (path === "/students") {
     await loadView("/frontend/pages/students.html");
-    initStudentController();  // <-- runs controller after rendering page
+    // Wait for DOM to be ready before initializing controller
+    setTimeout(() => initStudentController(), 0);
   }
 
   else if (path === "/teachers") {
     await loadView("/frontend/pages/teachers.html");
-    initTeacherController();
+    // Wait for DOM to be ready before initializing controller
+    setTimeout(() => initTeacherController(), 0);
+  }
+
+  else if (path === "/marks") {
+    await loadView("/frontend/pages/marks.html");
+    setTimeout(() => initMarkController(), 0);
   }
 
   else {
@@ -46,8 +61,4 @@ export function initRouterEvents() {
   window.addEventListener("popstate", router);
 }
 
-// 🚀 Load the correct route when the page initially loads
-window.addEventListener("DOMContentLoaded", () => {
-  initRouterEvents();  // enable SPA navigation
-  router();            // load correct page immediately
-});
+

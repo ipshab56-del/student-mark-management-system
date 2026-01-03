@@ -1,7 +1,11 @@
 // Global app state
 let state = {
-  editingId: null,   // which student is being edited
-  students: []       // list of all students
+  students: [],
+  teachers: [],
+  marks: [],
+  editingId: null,
+  teacherEditingId: null,
+  markEditingId: null
 };
 
 // Update part of the state

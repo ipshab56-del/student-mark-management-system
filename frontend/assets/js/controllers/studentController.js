@@ -26,7 +26,7 @@ export function initStudentController() {
   // Attach a listener to the 'submit' event of the student input form
   $("studentForm").addEventListener("submit", async (e) => {
     // Prevent the browser's default form submission behavior (page refresh)
-    e.preventDefault();
+    e.preventDefault(); 
 
     // Collect data from the input fields using the custom '$' selector
     const data = {
@@ -59,28 +59,16 @@ export function initStudentController() {
 
 // Fetch all student data from the API and update the user interface
 export async function loadStudents() {
-  console.log("LOAD: fetching students from API...");
-
-  // Get references to the loading spinner and the main data table elements
-  const spinner = $("loadingSpinner");
   const table = $("studentsTableContainer");
 
-  // Show the spinner and hide the table to indicate a loading state
-  spinner.style.display = "block";
-  table.style.display = "none";
+  if (!table) return; // safety guard
 
-  // Asynchronously fetch all student records from the backend API
   const students = await apiGetAll();
 
-  // Store the retrieved student array in the application's global state
   setState({ students });
-  // Render the fetched student data into the HTML table structure
   renderStudentTable(students);
-
-  // Hide the spinner and show the table now that the data is loaded and displayed
-  spinner.style.display = "none";
-  table.style.display = "block";
 }
+
 
 
 // Create a new student

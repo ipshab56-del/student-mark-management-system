@@ -1,0 +1,35 @@
+<div class="container mx-auto p-6 space-y-6">
+  <h1 class="text-3xl font-bold text-gray-800">Mark Management</h1>
+
+  <!-- Form -->
+  <div class="card">
+    <form id="markForm" class="space-y-4">
+      <select id="m_student_id" class="input" required>
+        <option value="">Select Student</option>
+      </select>
+      <input id="m_subject" class="input" placeholder="Subject" required>
+      <input id="m_marks" class="input" type="number" placeholder="Marks" min="0" max="100" required>
+
+      <div class="flex gap-3">
+        <button id="m_submitBtn" class="btn btn-primary" type="submit">Add Mark</button>
+        <button id="m_cancelBtn" class="btn btn-muted" type="button" style="display:none;">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Table -->
+  <div class="card">
+    <p id="noMarks" class="text-gray-600" style="display:none;">No marks found. Add one above.</p>
+
+    <table class="table min-w-full">
+      <thead>
+        <tr>
+          <th>ID</th><th>Student</th><th>Subject</th><th>Marks</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="marksTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="alertContainer" class="fixed top-4 right-4 z-50 space-y-2"></div>
+</div>

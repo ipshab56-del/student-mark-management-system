@@ -58,20 +58,13 @@ def get_student(handler, student_id):
 def create_student(handler):
     try:
         data = parse_json_body(handler)
-
-        # Basic validation (optional but prevents bad insert)
-        required_fields = ["name", "email", "course", "year"]
-        if not data or not all(field in data for field in required_fields):
-            return send_json(handler, 400, {
-                "error": "Missing or invalid fields",
-                "required_fields": required_fields
-            })
-
         new_student = service_create(data)
         return send_json(handler, 201, new_student)
-
+    except ValueError as e:
+        if "UNIQUE constraint" in str(e):
+            return send_json(handler, 400, {"error": "Email already exists"})
+        return send_json(handler, 400, {"error": str(e)})
     except Exception as e:
-        # Ensures server always returns a response
         return send_json(handler, 500, {"error": str(e)})
 
 

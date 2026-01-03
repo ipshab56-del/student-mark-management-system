@@ -19,9 +19,16 @@ def get_teacher(handler, teacher_id):
     return send_json(handler, 200, teacher) if teacher else send_404(handler)
 
 def create_teacher(handler):
-    data = parse_json_body(handler)
-    new_teacher = service_create(data)
-    return send_json(handler, 201, new_teacher)
+    try:
+        data = parse_json_body(handler)
+        new_teacher = service_create(data)
+        return send_json(handler, 201, new_teacher)
+    except ValueError as e:
+        if "UNIQUE constraint" in str(e):
+            return send_json(handler, 400, {"error": "Email already exists"})
+        return send_json(handler, 400, {"error": str(e)})
+    except Exception as e:
+        return send_json(handler, 500, {"error": str(e)})
 
 def update_teacher(handler, teacher_id):
     data = parse_json_body(handler)

@@ -33,6 +33,18 @@ def init_db():
         updated_at TEXT,
         FOREIGN KEY (student_id) REFERENCES students (id)
     );
+
+    CREATE TABLE IF NOT EXISTS fees (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_id INTEGER NOT NULL,
+        amount REAL NOT NULL,
+        due_date TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        description TEXT,
+        created_at TEXT,
+        updated_at TEXT,
+        FOREIGN KEY (student_id) REFERENCES students (id)
+    );
     """)
 
     conn.commit()

@@ -1,6 +1,6 @@
 body {
   scroll-behavior: smooth;
-  background: #f8fafc;
+  background-size: cover;
   min-height: 100vh;
 }
 

@@ -1,14 +1,3 @@
-✓ Database tables ready
-Traceback (most recent call last):
-  File "/workspaces/student-mark-management-system/app.py", line 41, in <module>
-    run_server()
-  File "/workspaces/student-mark-management-system/app.py", line 27, in run_server
-    httpd = HTTPServer(server_address, MainRouter)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/codespace/.python/current/lib/python3.12/socketserver.py", line 457, in __init__
-    self.server_bind()
-  File "/home/codespace/.python/current/lib/python3.12/http/server.py", line 136, in server_bind
-    socketserver.TCPServer.server_bind(self)
-  File "/home/codespace/.python/current/lib/python3.12/socketserver.py", line 473, in server_bind
-    self.socket.bind(self.server_address)
-OSError: [Errno 98] Address already in use
+127.0.0.1 - - [07/Jan/2026 07:29:52] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 07:30:05] "GET /image.png HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 07:30:13] "GET /frontend/assets/js/components/TeacherTable.js HTTP/1.1" 200 -

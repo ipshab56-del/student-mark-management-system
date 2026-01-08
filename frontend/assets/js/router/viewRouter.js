@@ -41,6 +41,10 @@ export async function router() {
     setTimeout(() => initMarkController(), 0);
   }
 
+  else if (path === "/fees") {
+    await loadView("/frontend/pages/fees.html");
+  }
+
   else {
     await loadView("/frontend/pages/404.html");
   }

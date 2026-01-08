@@ -34,6 +34,8 @@ def serve_static(handler, filepath):
         handler.end_headers()
         handler.wfile.write(content)
 
+    except (BrokenPipeError, ConnectionResetError):
+        pass  # Client disconnected, ignore
     except Exception as e:
         print("STATIC ERROR:", e)
         return send_404(handler)

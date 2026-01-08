@@ -61,8 +61,8 @@ export class FeeController {
                     <td><span class="${statusClass} font-semibold">${fee.status}</span></td>
                     <td>${fee.description || '-'}</td>
                     <td>
-                        <button onclick="feeController.editFee(${fee.id})" class="text-blue-600 hover:underline mr-2">Edit</button>
-                        <button onclick="feeController.deleteFee(${fee.id})" class="text-red-600 hover:underline">Delete</button>
+                        <button onclick="feeController.editFee(${fee.id})" class="edit-btn">Edit</button>
+                        <button onclick="feeController.deleteFee(${fee.id})" class="delete-btn">Delete</button>
                     </td>
                 </tr>
             `;

@@ -6,7 +6,7 @@ class FeeService:
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM fees")
-        fees = cursor.fetchall()
+        fees = [dict(row) for row in cursor.fetchall()]
         conn.close()
         return fees
 
@@ -15,7 +15,8 @@ class FeeService:
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM fees WHERE id = ?", (fee_id,))
-        fee = cursor.fetchone()
+        row = cursor.fetchone()
+        fee = dict(row) if row else None
         conn.close()
         return fee
 

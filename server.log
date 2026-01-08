@@ -1,3 +1,8 @@
-127.0.0.1 - - [07/Jan/2026 07:29:52] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [07/Jan/2026 07:30:05] "GET /image.png HTTP/1.1" 200 -
-127.0.0.1 - - [07/Jan/2026 07:30:13] "GET /frontend/assets/js/components/TeacherTable.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 13:45:54] "GET /api/fees HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 13:46:00] "GET /api/students HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 13:46:06] "POST /api/students HTTP/1.1" 201 -
+127.0.0.1 - - [07/Jan/2026 13:46:13] "POST /api/fees HTTP/1.1" 201 -
+127.0.0.1 - - [07/Jan/2026 13:46:19] "GET /api/fees HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 13:46:19] "GET /api/fees HTTP/1.1" 500 -
+127.0.0.1 - - [07/Jan/2026 13:46:31] "GET /api/fees HTTP/1.1" 200 -
+127.0.0.1 - - [07/Jan/2026 13:46:31] "GET /api/fees HTTP/1.1" 500 -

@@ -145,10 +145,11 @@ body::before {
   transform: scale(1.01);
 }
 
-/* Table container with horizontal scroll */
+/* Table container with horizontal and vertical scroll */
 .table-container {
-  overflow-x: auto;
+  overflow: auto;
   max-width: 100%;
+  max-height: 400px;
   border-radius: 15px;
 }
 

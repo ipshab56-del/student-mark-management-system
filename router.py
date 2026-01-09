@@ -63,6 +63,10 @@ def handle_ui_routes(handler, path):
         serve_static(handler, path.lstrip("/"))
         return True
 
+    if path == "/favicon.ico":
+        serve_static(handler, "frontend/assets/favicon.ico")
+        return True
+
     if path == "/image.png":
         serve_static(handler, "image.png")
         return True

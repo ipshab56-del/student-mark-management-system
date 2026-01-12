@@ -186,6 +186,18 @@ header {
   border: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
+/* Navigation text colors */
+.nav-link {
+  color: #f59e0b !important;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #d97706 !important;
+  transform: translateY(-1px);
+}
+
 /* Text Enhancements */
 h1, h2, h3 {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
@@ -197,15 +209,20 @@ h1, h2, h3 {
 
 /* Navigation Cards */
 .nav-card {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 24px;
+  padding: 4rem 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(245, 158, 11, 0.2);
   transition: all 0.4s ease;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  min-height: 280px;
+  aspect-ratio: 1;
 }
 
 .nav-card::before {
@@ -225,8 +242,34 @@ h1, h2, h3 {
 }
 
 .nav-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+  transform: translateY(-12px) scale(1.05);
+  box-shadow: 0 30px 60px rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+.nav-card h3 {
+  color: #1f2937;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  background: none;
+  -webkit-text-fill-color: initial;
+}
+
+.nav-card p {
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nav-card .text-5xl {
+  filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.3));
+  transition: all 0.3s ease;
+}
+
+.nav-card:hover .text-5xl {
+  transform: scale(1.1);
+  filter: drop-shadow(0 6px 12px rgba(245, 158, 11, 0.4));
 }
 
 /* Alert Enhancements */

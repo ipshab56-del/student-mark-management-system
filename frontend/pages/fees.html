@@ -80,6 +80,9 @@
 <script type="module">
 import { FeeController } from '/frontend/assets/js/controllers/feeController.js';
 
-const feeController = new FeeController();
-feeController.init();
+(async () => {
+    const feeController = new FeeController();
+    await feeController.init();
+    window.feeController = feeController;
+})();
 </script>

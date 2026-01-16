@@ -1,5 +1,5 @@
-// Base API URL from env.js
-const API_URL = window.ENV.API_STUDENTS_URL;
+// Base API URL
+const API_URL = "/api/students";
 
 // Helper: safely parse JSON or return null
 async function safeJson(res) {
@@ -46,4 +46,27 @@ export function apiUpdate(id, data) {
 // Delete a student
 export function apiDelete(id) {
   return fetch(`${API_URL}/${id}`, { method: "DELETE" });
+}
+
+// StudentService class
+export class StudentService {
+  async getAll() {
+    return await apiGetAll();
+  }
+
+  async getById(id) {
+    return await apiGetOne(id);
+  }
+
+  async create(data) {
+    return await apiCreate(data);
+  }
+
+  async update(id, data) {
+    return await apiUpdate(id, data);
+  }
+
+  async delete(id) {
+    return await apiDelete(id);
+  }
 }

@@ -212,3 +212,18 @@ def mark_delete(mark_id):
     conn.commit()
     conn.close()
     return cur.rowcount > 0
+
+
+# -------------------------
+# FEES
+# -------------------------
+
+def fee_get_all():
+    conn = get_connection()
+    rows = conn.execute("""
+        SELECT f.*, s.name as student_name 
+        FROM fees f 
+        JOIN students s ON f.student_id = s.id
+    """).fetchall()
+    conn.close()
+    return [dict(row) for row in rows]

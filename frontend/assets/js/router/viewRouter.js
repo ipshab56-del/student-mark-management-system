@@ -1,6 +1,7 @@
 import { initStudentController } from "../controllers/studentController.js";
 import { initTeacherController } from "../controllers/teacherController.js";
 import { initMarkController } from "../controllers/markController.js";
+import { FeeController } from "../controllers/feeController.js";
 
 // Load a view into #app container
 async function loadView(path) {
@@ -43,6 +44,15 @@ export async function router() {
 
   else if (path === "/fees") {
     await loadView("/frontend/pages/fees.html");
+    setTimeout(async () => {
+      const feeController = new FeeController();
+      await feeController.init();
+      window.feeController = feeController;
+    }, 0);
+  }
+
+  else if (path === "/reports") {
+    await loadView("/frontend/pages/reports.html");
   }
 
   else {

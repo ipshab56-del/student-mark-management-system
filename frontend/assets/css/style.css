@@ -278,3 +278,18 @@ h1, h2, h3 {
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* Home page: make outer container and nav-cards transparent to show background image */
+.container.home-page {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.container.home-page .nav-card {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(6px) !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}

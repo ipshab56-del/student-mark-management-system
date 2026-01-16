@@ -1,0 +1,83 @@
+<div class="mx-auto p-8 space-y-8">
+  <h1 class="text-4xl font-bold text-center mb-8">📊 Complete Report</h1>
+
+  <!-- Combined Data Table -->
+  <div class="table-section">
+    <h2 class="text-2xl font-bold mb-4">Student Academic Report</h2>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Course</th>
+            <th>Year</th>
+            <th>Subject</th>
+            <th>Teacher</th>
+            <th>Marks</th>
+            <th>Percentage</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { StudentService } from '/frontend/assets/js/services/studentService.js';
+import { StudentService as MarkService } from '/frontend/assets/js/services/studentService.js';
+
+(async () => {
+  const studentService = new StudentService();
+  const markService = new MarkService();
+
+  const students = await studentService.getAll();
+  const marks = await fetch('/api/marks').then(r => r.json());
+  const teachers = await fetch('/api/teachers').then(r => r.json());
+
+  const tbody = document.getElementById('reportTableBody');
+  
+  students.forEach(student => {
+    const studentMarks = marks.filter(m => m.student_id === student.id);
+    
+    if (studentMarks.length === 0) {
+      tbody.innerHTML += `
+        <tr>
+          <td>${student.id}</td>
+          <td>${student.name}</td>
+          <td>${student.email}</td>
+          <td>${student.course}</td>
+          <td>${student.year}</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+      `;
+    } else {
+      const totalMarks = studentMarks.reduce((sum, m) => sum + m.marks, 0);
+      const percentage = ((totalMarks / (studentMarks.length * 100)) * 100).toFixed(2);
+      
+      studentMarks.forEach(mark => {
+        const teacher = teachers.find(t => t.subject === mark.subject);
+        tbody.innerHTML += `
+          <tr>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.email}</td>
+            <td>${student.course}</td>
+            <td>${student.year}</td>
+            <td>${mark.subject}</td>
+            <td>${teacher ? teacher.name : '-'}</td>
+            <td>${mark.marks}</td>
+            <td>${percentage}%</td>
+          </tr>
+        `;
+      });
+    }
+  });
+})();
+</script>

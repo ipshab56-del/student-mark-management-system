@@ -288,8 +288,10 @@ h1, h2, h3 {
 }
 
 .container.home-page .nav-card {
-  background: rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(6px) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(8px) !important;
   box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
-  border: 1px solid rgba(255,255,255,0.06) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  padding: 2.5rem 1.5rem;
+  min-height: 200px;
 }

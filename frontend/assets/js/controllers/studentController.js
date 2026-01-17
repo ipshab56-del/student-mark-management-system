@@ -7,7 +7,7 @@ import {
 } from "../services/studentService.js";
 
 import { showAlert } from "../components/alert.js";
-import { renderStudentTable } from "../components/StudentTable.js";
+import { renderStudentTable, setTableCallbacks } from "../components/StudentTable.js";
 import { resetForm, fillForm } from "../components/StudentForm.js";
 
 import { setState, getState } from "../state/store.js";
@@ -17,6 +17,9 @@ import { $, createElement } from "../utils/dom.js";
 // Initialize the main logic and set up all necessary event listeners
 export function initStudentController() {
   console.log("CONTROLLER: student controller initialized");
+
+  // Set up callbacks for table actions (avoids circular dependency)
+  setTableCallbacks(editStudent, deleteStudentAction);
 
   // Start by fetching and displaying all student data immediately upon load
   loadStudents();

@@ -78,92 +78,65 @@ def handle_ui_routes(handler, path):
     return False
 
 
+# The MainRouter class below handles all routing
+
+
+
 # -------------------------------
-# STUDENT ROUTER
+# MAIN ROUTER (DELEGATES REQUESTS)
 # -------------------------------
-class StudentRouter(BaseHTTPRequestHandler):
+class MainRouter(BaseHTTPRequestHandler):
+    """
+    Delegates the current request to the correct router.
+    Routes logic directly without trying to call other router classes.
+    """
 
     def do_OPTIONS(self):
         self.send_response(200)
         add_cors_headers(self)
         self.end_headers()
 
+    def do_HEAD(self):
+        """
+        Handle HEAD requests the same as GET (for proxy/load balancer health checks).
+        This prevents 504 errors from proxies that check resource availability.
+        """
+        return self.do_GET()
+
     def do_GET(self):
         path = urlparse(self.path).path
 
+        # UI and static file routes
         if handle_ui_routes(self, path):
             return
 
+        # Student API routes
         if path == "/api/students":
             return get_all_students(self)
-
         if path.startswith("/api/students/"):
             student_id = path.split("/")[-1]
             if student_id.isdigit():
                 return get_student(self, int(student_id))
 
-        return send_404(self)
-
-    def do_POST(self):
-        if self.path == "/api/students":
-            return create_student(self)
-        return send_404(self)
-
-    def do_PUT(self):
-        path = self.path
-        if path.startswith("/api/students/"):
-            student_id = path.split("/")[-1]
-            if student_id.isdigit():
-                return update_student(self, int(student_id))
-        return send_404(self)
-
-    def do_DELETE(self):
-        path = self.path
-        if path.startswith("/api/students/"):
-            student_id = path.split("/")[-1]
-            if student_id.isdigit():
-                return delete_student(self, int(student_id))
-        return send_404(self)
-
-    def log_message(self, format, *args):
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] [StudentRouter] {format % args}")
-
-
-# -------------------------------
-# TEACHER ROUTER
-# -------------------------------
-class TeacherRouter(BaseHTTPRequestHandler):
-
-    def do_OPTIONS(self):
-        self.send_response(200)
-        add_cors_headers(self)
-        self.end_headers()
-
-    def do_GET(self):
-        path = urlparse(self.path).path
-
-        if handle_ui_routes(self, path):
-            return
-
+        # Teacher API routes
         if path == "/api/teachers":
             return get_all_teachers(self)
-
         if path.startswith("/api/teachers/"):
             teacher_id = path.split("/")[-1]
             if teacher_id.isdigit():
                 return get_teacher(self, int(teacher_id))
 
+        # Mark API routes
         if path == "/api/marks":
             return get_all_marks(self)
-
         if path.startswith("/api/marks/"):
             mark_id = path.split("/")[-1]
             if mark_id.isdigit():
                 return get_mark(self, int(mark_id))
 
+        # Fee API routes
         if path == "/api/fees":
             return get_all_fees(self)
-
         if path.startswith("/api/fees/"):
             fee_id = path.split("/")[-1]
             if fee_id.isdigit():
@@ -172,16 +145,26 @@ class TeacherRouter(BaseHTTPRequestHandler):
         return send_404(self)
 
     def do_POST(self):
-        if self.path == "/api/teachers":
+        path = urlparse(self.path).path
+
+        if path == "/api/students":
+            return create_student(self)
+        if path == "/api/teachers":
             return create_teacher(self)
-        if self.path == "/api/marks":
+        if path == "/api/marks":
             return create_mark(self)
-        if self.path == "/api/fees":
+        if path == "/api/fees":
             return create_fee(self)
+
         return send_404(self)
 
     def do_PUT(self):
-        path = self.path
+        path = urlparse(self.path).path
+
+        if path.startswith("/api/students/"):
+            student_id = path.split("/")[-1]
+            if student_id.isdigit():
+                return update_student(self, int(student_id))
         if path.startswith("/api/teachers/"):
             teacher_id = path.split("/")[-1]
             if teacher_id.isdigit():
@@ -194,10 +177,16 @@ class TeacherRouter(BaseHTTPRequestHandler):
             fee_id = path.split("/")[-1]
             if fee_id.isdigit():
                 return update_fee(self, int(fee_id))
+
         return send_404(self)
 
     def do_DELETE(self):
-        path = self.path
+        path = urlparse(self.path).path
+
+        if path.startswith("/api/students/"):
+            student_id = path.split("/")[-1]
+            if student_id.isdigit():
+                return delete_student(self, int(student_id))
         if path.startswith("/api/teachers/"):
             teacher_id = path.split("/")[-1]
             if teacher_id.isdigit():
@@ -210,50 +199,9 @@ class TeacherRouter(BaseHTTPRequestHandler):
             fee_id = path.split("/")[-1]
             if fee_id.isdigit():
                 return delete_fee(self, int(fee_id))
+
         return send_404(self)
 
     def log_message(self, format, *args):
-        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] [TeacherRouter] {format % args}")
+        print(f"[{datetime.now():%Y-%m-%d %H:%M:%S}] [MainRouter] {format % args}")
 
-
-# -------------------------------
-# MAIN ROUTER (DELEGATES REQUESTS)
-# -------------------------------
-class MainRouter(BaseHTTPRequestHandler):
-    """
-    Delegates the current request to the correct router.
-    We DO NOT instantiate routers — we call their methods on self.
-    """
-
-    def dispatch(self, method_name):
-        path = self.path
-
-        # fees API routes
-        if path.startswith("/api/fees"):
-            return getattr(TeacherRouter, method_name)(self)
-
-        # marks API routes
-        if path.startswith("/api/marks"):
-            return getattr(TeacherRouter, method_name)(self)
-
-        # teacher API routes
-        if path.startswith("/api/teachers"):
-            return getattr(TeacherRouter, method_name)(self)
-
-        # student API + UI routes
-        return getattr(StudentRouter, method_name)(self)
-
-    def do_GET(self):
-        return self.dispatch("do_GET")
-
-    def do_POST(self):
-        return self.dispatch("do_POST")
-
-    def do_PUT(self):
-        return self.dispatch("do_PUT")
-
-    def do_DELETE(self):
-        return self.dispatch("do_DELETE")
-
-    def do_OPTIONS(self):
-        return self.dispatch("do_OPTIONS")

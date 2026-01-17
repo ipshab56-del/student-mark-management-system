@@ -36,16 +36,14 @@
 </style>
 
 <script type="module">
-import { StudentService } from '/frontend/assets/js/services/studentService.js';
-import { StudentService as MarkService } from '/frontend/assets/js/services/studentService.js';
+import { apiGetAll as apiGetAllStudents } from '/frontend/assets/js/services/studentService.js';
+import { apiMarkGetAll } from '/frontend/assets/js/services/markService.js';
+import { apiGetAll as apiGetAllTeachers } from '/frontend/assets/js/services/teacherService.js';
 
 (async () => {
-  const studentService = new StudentService();
-  const markService = new MarkService();
-
-  const students = await studentService.getAll();
-  const marks = await fetch('/api/marks').then(r => r.json());
-  const teachers = await fetch('/api/teachers').then(r => r.json());
+  const students = await apiGetAllStudents();
+  const marks = await apiMarkGetAll();
+  const teachers = await apiGetAllTeachers();
 
   const tbody = document.getElementById('reportTableBody');
   

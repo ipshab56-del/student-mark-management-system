@@ -3,7 +3,7 @@ import {
   apiTeacherUpdate, apiTeacherDelete
 } from "../services/teacherService.js";
 
-import { renderTeacherTable } from "../components/TeacherTable.js";
+import { renderTeacherTable, setTeacherTableCallbacks } from "../components/TeacherTable.js";
 import { resetTeacherForm, fillTeacherForm } from "../components/TeacherForm.js";
 import { setState, getState } from "../state/store.js";
 import { showAlert } from "../components/alert.js";
@@ -11,6 +11,10 @@ import { $ } from "../utils/dom.js";
 
 export function initTeacherController() {
   console.log("CONTROLLER: teacher controller initialized");
+  
+  // Set up callbacks for table actions (avoids circular dependency)
+  setTeacherTableCallbacks(editTeacher, deleteTeacherAction);
+  
   loadTeachers();
 
   $("teacherForm").addEventListener("submit", async e => {

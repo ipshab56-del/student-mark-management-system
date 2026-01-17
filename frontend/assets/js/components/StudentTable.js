@@ -1,5 +1,14 @@
 import { $ } from "../utils/dom.js";
-import { editStudent, deleteStudentAction } from "../controllers/studentController.js";
+
+// Store callbacks for edit and delete actions
+let onEdit = null;
+let onDelete = null;
+
+// Set the callback functions for edit and delete actions
+export function setTableCallbacks(editCallback, deleteCallback) {
+  onEdit = editCallback;
+  onDelete = deleteCallback;
+}
 
 // Renders the list of students into an HTML table
 export function renderStudentTable(students) {
@@ -47,11 +56,15 @@ export function renderStudentTable(students) {
 
     // Find the 'Edit' button within this specific row and attach a click handler
     // When clicked, call the editStudent function with the correct student ID
-    row.querySelector("[data-edit]").onclick = () => editStudent(student.id);
+    if (onEdit) {
+      row.querySelector("[data-edit]").onclick = () => onEdit(student.id);
+    }
     
     // Find the 'Delete' button within this specific row and attach a click handler
     // When clicked, call the deleteStudentAction function with the correct student ID
-    row.querySelector("[data-delete]").onclick = () => deleteStudentAction(student.id);
+    if (onDelete) {
+      row.querySelector("[data-delete]").onclick = () => onDelete(student.id);
+    }
 
     // Append the fully constructed row to the table body
     body.appendChild(row);

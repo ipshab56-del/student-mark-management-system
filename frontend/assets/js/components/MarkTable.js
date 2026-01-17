@@ -1,5 +1,14 @@
 import { $ } from "../utils/dom.js";
-import { editMark, deleteMarkAction } from "../controllers/markController.js";
+
+// Store callbacks for edit and delete actions
+let onEdit = null;
+let onDelete = null;
+
+// Set the callback functions for edit and delete actions
+export function setMarkTableCallbacks(editCallback, deleteCallback) {
+  onEdit = editCallback;
+  onDelete = deleteCallback;
+}
 
 export function renderMarkTable(marks) {
   const body = $("marksTableBody");
@@ -31,8 +40,8 @@ export function renderMarkTable(marks) {
       </td>
     `;
 
-    row.querySelector("[data-edit]").onclick = () => editMark(mark.id);
-    row.querySelector("[data-delete]").onclick = () => deleteMarkAction(mark.id);
+    row.querySelector("[data-edit]").onclick = () => onEdit ? onEdit(mark.id) : null;
+    row.querySelector("[data-delete]").onclick = () => onDelete ? onDelete(mark.id) : null;
 
     body.appendChild(row);
   });

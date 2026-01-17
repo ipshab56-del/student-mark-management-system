@@ -1,5 +1,14 @@
 import { $ } from "../utils/dom.js";
-import { editTeacher, deleteTeacherAction } from "../controllers/teacherController.js";
+
+// Store callbacks for edit and delete actions
+let onEdit = null;
+let onDelete = null;
+
+// Set the callback functions for edit and delete actions
+export function setTeacherTableCallbacks(editCallback, deleteCallback) {
+  onEdit = editCallback;
+  onDelete = deleteCallback;
+}
 
 export function renderTeacherTable(teachers) {
   const body = $("teachersTableBody");
@@ -27,8 +36,8 @@ export function renderTeacherTable(teachers) {
       </td>
     `;
 
-    row.querySelector("[data-edit]").onclick = () => editTeacher(t.id);
-    row.querySelector("[data-delete]").onclick = () => deleteTeacherAction(t.id);
+    row.querySelector("[data-edit]").onclick = () => onEdit ? onEdit(t.id) : null;
+    row.querySelector("[data-delete]").onclick = () => onDelete ? onDelete(t.id) : null;
 
     body.appendChild(row);
   });

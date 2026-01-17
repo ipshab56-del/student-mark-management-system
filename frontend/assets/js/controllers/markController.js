@@ -1,6 +1,6 @@
 import { apiMarkGetAll, apiMarkCreate, apiMarkGetOne, apiMarkUpdate, apiMarkDelete } from "../services/markService.js";
 import { apiGetAll } from "../services/studentService.js";
-import { renderMarkTable } from "../components/MarkTable.js";
+import { renderMarkTable, setMarkTableCallbacks } from "../components/MarkTable.js";
 import { resetMarkForm, fillMarkForm } from "../components/MarkForm.js";
 import { setState, getState } from "../state/store.js";
 import { showAlert } from "../components/alert.js";
@@ -8,6 +8,10 @@ import { $ } from "../utils/dom.js";
 
 export function initMarkController() {
   console.log("CONTROLLER: mark controller initialized");
+  
+  // Set up callbacks for table actions (avoids circular dependency)
+  setMarkTableCallbacks(editMark, deleteMarkAction);
+  
   loadMarks();
   loadStudents();
 

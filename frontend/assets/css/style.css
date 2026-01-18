@@ -109,63 +109,83 @@ body::before {
   box-shadow: 0 12px 25px rgba(168, 168, 168, 0.4);
 }
 
+/* Table - Full screen width */
 .table {
-  width: 100%;
-  min-width: 1200px;
+  width: 100vw;
+  max-width: 100vw;
+  min-width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .table thead th {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: rgba(245, 158, 11, 0.9);
   color: white;
   font-weight: 700;
-  padding: 18px;
+  padding: 16px 20px;
   text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 1.5px;
+  font-size: 14px;
+  letter-spacing: 1px;
   word-wrap: break-word;
   text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.table thead th:last-child {
+  border-right: none;
 }
 
 .table tbody td {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 16px 18px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
   word-wrap: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: unset;
   text-align: center;
 }
 
-.table tbody tr:hover td {
-  background: rgba(245, 158, 11, 0.1);
-  transform: scale(1.01);
+.table tbody td:last-child {
+  border-right: none;
 }
 
-/* Table container with horizontal and vertical scroll */
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover td {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+/* Table container - Full screen */
 .table-container {
-  overflow: auto;
-  max-width: 100%;
-  max-height: 400px;
-  border-radius: 15px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
+  overflow: visible;
+  max-width: 100vw;
+  max-height: none;
+  border-radius: 0;
+  margin: 0;
+  display: block;
+  position: relative;
+  width: 100vw;
 }
 
 .table-section {
-  display: flex;
-  flex-direction: column;
+  display: block;
   align-items: center;
-  width: 100%;
+  width: 100vw;
+  max-width: 100vw;
+  position: relative;
 }
 
 .container {

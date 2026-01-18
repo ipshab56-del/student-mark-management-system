@@ -11,7 +11,14 @@ def send_json(handler, status, data):
         handler.end_headers()
         handler.wfile.write(json.dumps(data).encode("utf-8"))
     except (BrokenPipeError, ConnectionResetError):
-        pass  # Client disconnected, ignore
+        # Client disconnected - connection already closed, nothing to do
+        print(f"Client disconnected during JSON response: {handler.path if hasattr(handler, 'path') else 'unknown'}")
+    except Exception as e:
+        print(f"Error sending JSON response: {e}")
+        try:
+            handler.send_error(500, "Internal Server Error")
+        except Exception:
+            pass
 
 def send_404(handler):
     try:
@@ -21,4 +28,11 @@ def send_404(handler):
         handler.end_headers()
         handler.wfile.write(b"<h1>404 Not Found</h1>")
     except (BrokenPipeError, ConnectionResetError):
-        pass  # Client disconnected, ignore
+        # Client disconnected - connection already closed, nothing to do
+        print(f"Client disconnected during 404 response")
+    except Exception as e:
+        print(f"Error sending 404 response: {e}")
+        try:
+            handler.send_error(500, "Internal Server Error")
+        except Exception:
+            pass

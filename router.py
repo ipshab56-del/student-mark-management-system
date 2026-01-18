@@ -91,6 +91,9 @@ class MainRouter(BaseHTTPRequestHandler):
     Routes logic directly without trying to call other router classes.
     """
 
+    # Reduce timeout for faster failure detection, preventing 504 accumulation
+    timeout = 10  # 10 second timeout - faster than 30s default
+
     def do_OPTIONS(self):
         self.send_response(200)
         add_cors_headers(self)

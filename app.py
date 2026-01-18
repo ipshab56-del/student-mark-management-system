@@ -1,18 +1,3 @@
-# # Starts the API server and initializes the database
-
-# from http.server import HTTPServer
-# from router import StudentRouter
-# from database.connection import init_database
-
-# def run_server():
-#     init_database()
-#     server = HTTPServer(("", 8000), StudentRouter)
-#     print("🚀 Server running at http://localhost:8000")
-#     server.serve_forever()
-
-# if __name__ == "__main__":
-#     run_server()
-
 # Starts the API server and initializes the database
 from http.server import HTTPServer
 from router import MainRouter
@@ -25,17 +10,23 @@ def run_server():
 
     server_address = ("", 8000)
     httpd = HTTPServer(server_address, MainRouter)
-
-    print("🚀 Server running at http://localhost:8000")
+    
+    # Fix 504 Gateway Timeout: Set timeout for connections
+    # This prevents hanging connections that cause 504 errors
+    httpd.timeout = 10  # 10 second timeout for all connections
+    
+    print("Server running at http://localhost:8000")
+    print(f"Connection timeout set to {httpd.timeout} seconds")
 
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        print("\n🛑 Server stopped by user")
+        print("\nServer stopped by user")
     finally:
         httpd.server_close()
-        print("✅ Server closed cleanly")
+        print("Server closed cleanly")
 
 
 if __name__ == "__main__":
     run_server()
+

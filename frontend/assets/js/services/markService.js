@@ -1,4 +1,4 @@
-const API_URL = window.ENV.API_MARKS_URL;
+const API_URL = "/api/marks";
 
 async function safeJson(res) {
   try { return await res.json(); }

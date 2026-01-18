@@ -1,5 +1,5 @@
 // Teacher API service
-const API_URL = window.ENV.API_TEACHERS_URL;
+const API_URL = "/api/teachers";
 
 // Helper to safely parse JSON
 async function safeJson(res) {

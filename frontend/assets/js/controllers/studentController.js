@@ -19,7 +19,7 @@ export function initStudentController() {
   console.log("CONTROLLER: student controller initialized");
 
   // Set up callbacks for table actions (avoids circular dependency)
-  setTableCallbacks(editStudent, deleteStudentAction);
+  setTableCallbacks(editStudent, deleteStudentAction, viewProfile);
 
   // Start by fetching and displaying all student data immediately upon load
   loadStudents();
@@ -113,4 +113,12 @@ export async function deleteStudentAction(id) {
     showAlert("Deleted!");
     loadStudents();
   }
+}
+
+// View student profile
+export function viewProfile(id) {
+  // Navigate to the profile page with the student ID as a query parameter
+  window.history.pushState(null, "", `/profile?id=${id}`);
+  // Trigger the router to load the profile page
+  import("../router/viewRouter.js").then(module => module.router());
 }

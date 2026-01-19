@@ -3,6 +3,7 @@ import { initTeacherController } from "../controllers/teacherController.js";
 import { initMarkController } from "../controllers/markController.js";
 import { FeeController } from "../controllers/feeController.js";
 import { initReportController } from "../controllers/reportController.js";
+import { initProfileController } from "../controllers/profileController.js";
 
 // Load a view into #app container
 async function loadView(path) {
@@ -55,6 +56,12 @@ export async function router() {
   else if (path === "/reports") {
     await loadView("/frontend/pages/reports.html");
     setTimeout(() => initReportController(), 0);
+  }
+
+  else if (path === "/profile") {
+    await loadView("/frontend/pages/profile.html");
+    // Wait for DOM to be ready before initializing profile controller
+    setTimeout(() => initProfileController(), 0);
   }
 
   else {

@@ -45,7 +45,7 @@ from core.middleware import add_cors_headers
 # -------------------------------
 # UI ROUTES
 # -------------------------------
-FRONTEND_ROUTES = {"/", "/home", "/students", "/teachers", "/marks", "/fees", "/reports", "/docs"}
+FRONTEND_ROUTES = {"/", "/home", "/students", "/teachers", "/marks", "/fees", "/reports", "/profile", "/docs"}
 
 def handle_ui_routes(handler, path):
     """Serve SPA frontend pages and static files."""

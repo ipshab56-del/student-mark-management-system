@@ -17,7 +17,6 @@ def serve_static(handler, filepath):
 
     # File doesn't exist
     if not os.path.exists(full_path):
-        print("STATIC ERROR: File not found:", full_path)
         return send_404(handler)
 
     try:

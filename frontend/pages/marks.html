@@ -8,17 +8,13 @@
       <select id="m_student_id" class="input" required>
         <option value="">Select Student</option>
       </select>
-      <select id="m_subject" class="input" required>
-        <option value="">Select Subject</option>
-        <option value="mathematics">Mathematics</option>
-        <option value="literature">Literature</option>
-        <option value="core">Core</option>
-      </select>
-      <input id="m_marks" class="input" type="number" placeholder=" Marks (0-100)" min="0" max="100" required>
+      <input id="m_mathematics" class="input" type="number" placeholder=" Mathematics Marks (0-100)" min="0" max="100">
+      <input id="m_literature" class="input" type="number" placeholder=" Literature Marks (0-100)" min="0" max="100">
+      <input id="m_core" class="input" type="number" placeholder=" Core Marks (0-100)" min="0" max="100">
 
       <div class="flex gap-4">
         <button id="m_submitBtn" class="btn btn-primary" type="submit">
-          <span>➕</span> Add Mark
+          <span>➕</span> Add Marks
         </button>
         <button id="m_cancelBtn" class="btn btn-muted" type="button" style="display:none;">
           ❌ Cancel
@@ -37,7 +33,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>ID</th><th>Student</th><th>Subject</th><th>Marks</th><th>Actions</th>
+          <th>ID</th><th>Student</th><th>Mathematics</th><th>Literature</th><th>Core</th><th>Actions</th>
         </tr>
       </thead>
       <tbody id="marksTableBody"></tbody>

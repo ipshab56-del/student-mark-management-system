@@ -111,9 +111,9 @@ body::before {
 
 /* Table - Proper responsive width */
 .table {
-  width: 100%;
-  max-width: 100%;
-  min-width: 100%;
+  width: 150%;
+  max-width: 150%;
+  min-width: 150%;
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 12px;
@@ -122,6 +122,13 @@ body::before {
   background: transparent;
   backdrop-filter: blur(10px);
   table-layout: auto;
+}
+
+/* Students table - 2 times wider */
+.students-table {
+  width: 200%;
+  max-width: 200%;
+  min-width: 200%;
 }
 
 .table thead th {

@@ -1,17 +1,17 @@
 /* Table Action Buttons Fix */
 .table tbody td button {
   display: inline-block;
-  padding: 8px 16px;
-  margin: 2px;
-  border-radius: 6px;
-  font-size: 14px;
+  padding: 4px 8px;
+  margin: 1px;
+  border-radius: 4px;
+  font-size: 12px;
   font-weight: 600;
   text-decoration: none;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  min-width: 70px;
+  min-width: 60px;
 }
 
 .table tbody td button:hover {
@@ -41,6 +41,18 @@
   min-width: 200px;
   text-align: center;
   padding: 12px 4px;
+}
+
+/* Students table Actions column wider */
+.students-table tbody td:last-child {
+  width: 300px;
+  min-width: 300px;
+}
+
+/* Students table Actions header wider */
+.students-table thead th:last-child {
+  width: 300px;
+  min-width: 300px;
 }
 
 .table tbody td {

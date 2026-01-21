@@ -1,4 +1,7 @@
 import { apiGetOne } from "../services/studentService.js";
+import { apiMarkGetAll } from "../services/markService.js";
+import { apiFeeGetAll } from "../services/feeService.js";
+import { apiTeacherGetAll } from "../services/teacherService.js";
 import { $ } from "../utils/dom.js";
 
 // Initialize the profile controller
@@ -20,13 +23,26 @@ export function initProfileController() {
 // Load and display the student profile
 async function loadStudentProfile(id) {
   try {
+    // Fetch student data
     const student = await apiGetOne(id);
 
-    if (student) {
-      displayProfile(student);
-    } else {
+    if (!student) {
       showError("Student not found");
+      return;
     }
+
+    // Fetch marks for this student
+    const allMarks = await apiMarkGetAll();
+    const studentMarks = allMarks.filter(mark => mark.student_id === parseInt(id));
+
+    // Fetch fees for this student
+    const allFees = await apiFeeGetAll();
+    const studentFees = allFees.filter(fee => fee.student_id === parseInt(id));
+
+    // Fetch all teachers to match with subjects
+    const teachers = await apiTeacherGetAll();
+
+    displayProfile(student, studentMarks, studentFees, teachers);
   } catch (error) {
     console.error("Error loading student profile:", error);
     showError("Error loading profile");
@@ -34,7 +50,7 @@ async function loadStudentProfile(id) {
 }
 
 // Display the student profile
-function displayProfile(student) {
+function displayProfile(student, marks, fees, teachers) {
   // Hide loading and error messages
   $("loading").style.display = "none";
   $("error").style.display = "none";
@@ -50,6 +66,12 @@ function displayProfile(student) {
   $("studentYear").textContent = student.year;
   $("studentCreatedAt").textContent = student.created_at || "N/A";
   $("studentUpdatedAt").textContent = student.updated_at || "N/A";
+
+  // Display marks
+  displayMarks(marks, teachers);
+
+  // Display fees
+  displayFees(fees);
 }
 
 // Show error message

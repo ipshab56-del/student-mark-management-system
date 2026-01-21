@@ -16,32 +16,71 @@
                 <div id="profileContent" class="hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Student ID</label>
+                            <p id="studentId" class="mt-1 p-2 bg-gray-100 rounded"></p>
+                        </div>
+                        <div>
                             <label class="block text-sm font-medium text-gray-700">Name</label>
-                            <p id="userName" class="mt-1 p-2 bg-gray-100 rounded">Admin User</p>
+                            <p id="studentName" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <p id="userEmail" class="mt-1 p-2 bg-gray-100 rounded">admin@school.edu</p>
+                            <p id="studentEmail" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Role</label>
-                            <p id="userRole" class="mt-1 p-2 bg-gray-100 rounded">Administrator</p>
+                            <label class="block text-sm font-medium text-gray-700">Course</label>
+                            <p id="studentCourse" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Department</label>
-                            <p id="userDepartment" class="mt-1 p-2 bg-gray-100 rounded">Academic Affairs</p>
+                            <label class="block text-sm font-medium text-gray-700">Year</label>
+                            <p id="studentYear" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Last Login</label>
-                            <p id="lastLogin" class="mt-1 p-2 bg-gray-100 rounded">2024-01-15 10:30 AM</p>
+                            <label class="block text-sm font-medium text-gray-700">Created At</label>
+                            <p id="studentCreatedAt" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Account Status</label>
-                            <p id="accountStatus" class="mt-1 p-2 bg-green-100 text-green-800 rounded">Active</p>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Last Updated</label>
+                            <p id="studentUpdatedAt" class="mt-1 p-2 bg-gray-100 rounded"></p>
                         </div>
                     </div>
+                    <div class="mt-8">
+                        <h2 class="text-xl font-bold mb-4">Academic Marks</h2>
+                        <div id="marksContainer">
+                            <table class="min-w-full bg-white border">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-4 py-2 border text-left">Subject</th>
+                                        <th class="px-4 py-2 border text-left">Marks</th>
+                                        <th class="px-4 py-2 border text-left">Teacher</th>
+                                        <th class="px-4 py-2 border text-left">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="marksTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <h2 class="text-xl font-bold mb-4">Fee Records</h2>
+                        <div id="feesContainer">
+                            <table class="min-w-full bg-white border">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-4 py-2 border text-left">Amount</th>
+                                        <th class="px-4 py-2 border text-left">Due Date</th>
+                                        <th class="px-4 py-2 border text-left">Status</th>
+                                        <th class="px-4 py-2 border text-left">Description</th>
+                                        <th class="px-4 py-2 border text-left">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="feesTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="mt-6">
-                        <button id="editProfileBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Edit Profile</button>
+                        <a href="/students" data-link class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">Back to Students</a>
                         <a href="/" data-link class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Back to Home</a>
                     </div>
                 </div>

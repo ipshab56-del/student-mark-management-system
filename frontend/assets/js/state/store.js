@@ -5,7 +5,8 @@ let state = {
   marks: [],
   editingId: null,
   teacherEditingId: null,
-  markEditingId: null
+  markEditingId: null,
+  profileStudentId: null  // Store the student ID for profile page
 };
 
 // Update part of the state

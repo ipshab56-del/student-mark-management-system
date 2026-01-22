@@ -6,6 +6,7 @@ import {
     apiDelete 
 } from "../services/studentService.js";
 
+
 import { showAlert } from "../components/alert.js";
 import { renderStudentTable, setTableCallbacks } from "../components/StudentTable.js";
 import { resetForm, fillForm } from "../components/StudentForm.js";
@@ -19,44 +20,73 @@ export function initStudentController() {
   console.log("CONTROLLER: student controller initialized");
 
   // Set up callbacks for table actions (avoids circular dependency)
-  setTableCallbacks(editStudent, deleteStudentAction, viewProfile);
+  setTableCallbacks(editStudent, deleteStudentAction);
 
   // Start by fetching and displaying all student data immediately upon load
   loadStudents();
 
+  // --- Handle Course Fee Form ---
+  const courseFeeForm = $("courseFeeForm");
+  if (courseFeeForm) {
+    courseFeeForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const courseName = $("courseName").value.trim();
+      const courseAmount = parseFloat($("courseFeeAmount").value);
+      const selectedStudentId = $("courseFeeStudent").value;
+
+      if (courseName && courseAmount) {
+        setState({ courseFeeData: { name: courseName, amount: courseAmount } });
+        await updateFeeStats(courseName, selectedStudentId);
+        courseFeeForm.reset();
+        showAlert("Course fee information updated!");
+      }
+    });
+  }
+
+  const courseFeeStudent = $("courseFeeStudent");
+  if (courseFeeStudent) {
+    courseFeeStudent.addEventListener("change", async (e) => {
+      const studentId = e.target.value;
+      const { courseFeeData } = getState();
+      if (studentId && courseFeeData) {
+        await updateFeeStats(courseFeeData.name, studentId);
+      }
+    });
+  }
+
+  const courseFeeCancel = $("courseFeeCancel");
+  if (courseFeeCancel) {
+    courseFeeCancel.addEventListener("click", () => {
+      if (courseFeeForm) courseFeeForm.reset();
+    });
+  }
+
   // --- Handle Form Submissions ---
-
-  // Attach a listener to the 'submit' event of the student input form
-  $("studentForm").addEventListener("submit", async (e) => {
-    // Prevent the browser's default form submission behavior (page refresh)
-    e.preventDefault(); 
-
-    // Collect data from the input fields using the custom '$' selector
-    const data = {
-      name: $("name").value.trim(),   // Get name value, remove whitespace
-      email: $("email").value.trim(), // Get email value
-      course: $("course").value.trim(), // Get course value
-      year: $("year").value.trim()    // Get year value
-    };
-
-    // Check the application state to see if we are currently editing an existing record
-    const { editingId } = getState();
-
-    // Use a ternary operator to decide which action to take:
-    editingId
-      ? await updateStudent(editingId, data) // If editingId exists, update the student
-      : await createNewStudent(data);        // Otherwise, create a new student
-  });
+  const studentForm = $("studentForm");
+  if (studentForm) {
+    studentForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        name: $("name").value.trim(),
+        email: $("email").value.trim(),
+        course: $("course").value.trim(),
+        year: $("year").value.trim()
+      };
+      const { editingId } = getState();
+      editingId
+        ? await updateStudent(editingId, data)
+        : await createNewStudent(data);
+    });
+  }
 
   // --- Handle Cancel Button Click ---
-
-  // Attach a listener to the 'click' event of the cancel button
-  $("cancelBtn").addEventListener("click", () => {
-    // Clear the editing state (set the ID to null)
-    setState({ editingId: null });
-    // Clear all input fields in the form
-    resetForm();
-  });
+  const cancelBtn = $("cancelBtn");
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      setState({ editingId: null });
+      resetForm();
+    });
+  }
 }
 
 
@@ -71,6 +101,8 @@ export async function loadStudents() {
   setState({ students });
   renderStudentTable(students);
 }
+
+
 
 
 
@@ -115,10 +147,25 @@ export async function deleteStudentAction(id) {
   }
 }
 
-// View student profile
+// View student profile (not used in students table anymore)
 export function viewProfile(id) {
-  // Navigate to the profile page with the student ID as a query parameter
-  window.history.pushState(null, "", `/profile?id=${id}`);
+  console.log("=== viewProfile called with ID:", id);
+  
+  // Store student ID in state
+  console.log("=== Setting state with profileStudentId:", id);
+  setState({ profileStudentId: id });
+  
+  console.log("=== State after setting:", getState());
+  console.log("=== Student ID stored in state:", id);
+  
+  // Navigate using SPA router with pushState
+  console.log("=== Pushing state to /profile");
+  window.history.pushState(null, "", `/profile`);
+  
   // Trigger the router to load the profile page
-  import("../router/viewRouter.js").then(module => module.router());
+  console.log("=== Calling router");
+  import("../router/viewRouter.js").then(module => {
+    console.log("=== Router module imported, calling router()");
+    module.router();
+  });
 }

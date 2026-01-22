@@ -11,7 +11,6 @@ async function loadReport() {
   const tbody = document.getElementById("reportTableBody");
   if (!tbody) return;
 
-  // Show loading state
   tbody.innerHTML = '<tr><td colspan="9" class="text-center">Loading report data...</td></tr>';
 
   try {
@@ -21,7 +20,6 @@ async function loadReport() {
       apiTeacherGetAll(),
     ]);
 
-    // Clear loading state
     tbody.innerHTML = "";
 
     if (students.length === 0) {
@@ -31,42 +29,40 @@ async function loadReport() {
 
     students.forEach((student) => {
       const studentMarks = marks.filter((m) => m.student_id === student.id);
+      
+      // Get marks by subject
+      const mathematicsMarks = studentMarks.find(m => m.subject === 'mathematics')?.marks || '-';
+      const literatureMarks = studentMarks.find(m => m.subject === 'literature')?.marks || '-';
+      const coreMarks = studentMarks.find(m => m.subject === 'core')?.marks || '-';
 
-      if (studentMarks.length === 0) {
-        tbody.innerHTML += `
-          <tr>
-            <td>${student.id}</td>
-            <td>${student.name}</td>
-            <td>${student.email}</td>
-            <td>${student.course}</td>
-            <td>${student.year}</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        `;
-      } else {
-        const totalMarks = studentMarks.reduce((sum, m) => sum + m.marks, 0);
-        const percentage = ((totalMarks / (studentMarks.length * 100)) * 100).toFixed(2);
-
-        studentMarks.forEach((mark) => {
-          const teacher = teachers.find((t) => t.subject === mark.subject);
-          tbody.innerHTML += `
-            <tr>
-              <td>${student.id}</td>
-              <td>${student.name}</td>
-              <td>${student.email}</td>
-              <td>${student.course}</td>
-              <td>${student.year}</td>
-              <td>${mark.subject}</td>
-              <td>${teacher ? teacher.name : "-"}</td>
-              <td>${mark.marks}</td>
-              <td>${percentage}%</td>
-            </tr>
-          `;
-        });
+      // Calculate overall percentage - only if ALL three subjects have marks
+      let percentage = '-';
+      
+      // Check if all three subjects have marks
+      const hasMathematics = mathematicsMarks !== '-';
+      const hasLiterature = literatureMarks !== '-';
+      const hasCore = coreMarks !== '-';
+      
+      if (hasMathematics && hasLiterature && hasCore) {
+        // All three marks exist - calculate percentage
+        const totalMarks = parseInt(mathematicsMarks) + parseInt(literatureMarks) + parseInt(coreMarks);
+        const percentage_value = ((totalMarks / 300) * 100).toFixed(2);
+        percentage = percentage_value + '%';
       }
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${student.id}</td>
+        <td>${student.name}</td>
+        <td>${student.email}</td>
+        <td>${student.course}</td>
+        <td>${student.year}</td>
+        <td class="font-semibold">${mathematicsMarks}</td>
+        <td class="font-semibold">${literatureMarks}</td>
+        <td class="font-semibold">${coreMarks}</td>
+        <td class="font-bold text-blue-600">${percentage}</td>
+      `;
+      tbody.appendChild(row);
     });
   } catch (error) {
     console.error("Error loading report data:", error);

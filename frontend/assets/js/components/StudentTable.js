@@ -3,13 +3,11 @@ import { $ } from "../utils/dom.js";
 // Store callbacks for edit and delete actions
 let onEdit = null;
 let onDelete = null;
-let onProfile = null;
 
 // Set the callback functions for edit and delete actions
-export function setTableCallbacks(editCallback, deleteCallback, profileCallback) {
+export function setTableCallbacks(editCallback, deleteCallback) {
   onEdit = editCallback;
   onDelete = deleteCallback;
-  onProfile = profileCallback;
 }
 
 // Renders the list of students into an HTML table
@@ -44,16 +42,13 @@ export function renderStudentTable(students) {
       <td class="px-3 py-2">${student.email}</td>
       <td class="px-3 py-2">${student.course}</td>
       <td class="px-3 py-2">${student.year}</td>
-      <td class="px-3 py-2 flex space-x-2">
-        <!-- Buttons are created with data attributes holding the student ID -->
-        <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded"
-          data-profile="${student.id}">View Profile</button>
-
-        <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded"
-          data-edit="${student.id}">Edit</button>
-
-        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
-          data-delete="${student.id}">Delete</button>
+      <td class="px-3 py-2 min-w-max">
+        <div class="flex gap-2 items-center justify-start h-full">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1.5 px-3 rounded transition-colors inline-block"
+            data-edit="${student.id}" title="Edit">Edit</button>
+          <button class="bg-red-500 hover:bg-red-600 text-white text-sm py-1.5 px-3 rounded transition-colors inline-block"
+            data-delete="${student.id}" title="Delete">Delete</button>
+        </div>
       </td>
     `;
 
@@ -69,12 +64,6 @@ export function renderStudentTable(students) {
     // When clicked, call the deleteStudentAction function with the correct student ID
     if (onDelete) {
       row.querySelector("[data-delete]").onclick = () => onDelete(student.id);
-    }
-
-    // Find the 'Profile' button within this specific row and attach a click handler
-    // When clicked, call the viewProfile function with the correct student ID
-    if (onProfile) {
-      row.querySelector("[data-profile]").onclick = () => onProfile(student.id);
     }
 
     // Append the fully constructed row to the table body

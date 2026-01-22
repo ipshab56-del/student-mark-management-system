@@ -59,9 +59,15 @@ export async function router() {
   }
 
   else if (path === "/profile") {
+    console.log("=== Router: Loading profile page");
     await loadView("/frontend/pages/profile.html");
     // Wait for DOM to be ready before initializing profile controller
-    setTimeout(() => initProfileController(), 0);
+    // Use a longer timeout to ensure query parameters are available
+    setTimeout(() => {
+      console.log("=== Router: Loading profile, URL:", window.location.href);
+      console.log("=== Router: About to call initProfileController");
+      initProfileController();
+    }, 100);
   }
 
   else {

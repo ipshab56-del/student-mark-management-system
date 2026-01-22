@@ -1,0 +1,2 @@
+- [x] Update table styles to match report page (dark background, white text)
+- [x] Update form styles to match report page (dark background, white text)

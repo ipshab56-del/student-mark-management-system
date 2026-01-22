@@ -7,7 +7,7 @@ body {
   position: relative;
 }
 
-body::before {
+/* body::before {
   content: '';
   position: fixed;
   top: 0;
@@ -16,14 +16,14 @@ body::before {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: -1;
-}
+} */
 
 #alertContainer > div {
   transition: all 0.3s ease;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.95);
+  background: transparent;
   backdrop-filter: blur(10px);
   padding: 2.5rem;
   border-radius: 20px;
@@ -52,7 +52,7 @@ body::before {
 
 .input:focus {
   border-color: #f59e0b;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
   outline: none;
   transform: translateY(-1px);
@@ -132,7 +132,7 @@ body::before {
 }
 
 .table thead th {
-  background: rgba(245, 158, 11, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   font-weight: 700;
   padding: 16px 20px;
@@ -142,6 +142,7 @@ body::before {
   word-wrap: break-word;
   text-align: center;
   border-right: 1px solid rgba(255,255,255,0.3);
+  text-shadow: 0 0 2px black;
 }
 
 .table thead th:last-child {
@@ -149,7 +150,7 @@ body::before {
 }
 
 .table tbody td {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   padding: 14px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -159,6 +160,8 @@ body::before {
   overflow: visible;
   text-overflow: unset;
   text-align: center;
+  text-shadow: 0 0 2px black;
+  backdrop-filter: none;
 }
 
 .table tbody td:last-child {
@@ -179,7 +182,8 @@ body::before {
   max-width: 100%;
   border-radius: 12px;
   margin: 0;
-  display: block;
+  display: flex;
+  justify-content: center;
   position: relative;
   width: 100%;
 }
@@ -306,11 +310,18 @@ h1, h2, h3 {
 }
 
 /* Home page: make outer container and nav-cards transparent to show background image */
-.container.home-page {
+
+.container.home-page, .container.profile-page {
   background: transparent !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
+}
+
+.container.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container.home-page .nav-card {
@@ -329,7 +340,7 @@ h1, h2, h3 {
 }
 
 .report-card-heading {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: #1f2937;
@@ -338,6 +349,7 @@ h1, h2, h3 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: center;
+  font-family: 'Georgia', serif;
 }
 
 .report-fullscreen {
@@ -374,15 +386,37 @@ h1, h2, h3 {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(245, 158, 11, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
+  text-shadow: 0 0 2px black;
 }
 
 .report-table tbody td {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  text-shadow: 0 0 2px black;
   backdrop-filter: none;
+}
+
+
+#footer {
+  position: relative;
+  z-index: -1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .report-table tbody tr:hover td {
   background: rgba(245, 158, 11, 0.3);
 }
+h1, h2, h3, h4, h5, h6 {
+    color: #fff !important;
+    /* text-shadow: 2px 2px 8px rgba(0,0,0,0.7); */
+} 

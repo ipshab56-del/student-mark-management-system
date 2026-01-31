@@ -59,9 +59,9 @@ export function renderMarkTable(marks) {
       <td class="px-3 py-2">${studentData.marks.core || '-'}</td>
       <td class="px-3 py-2 font-bold text-blue-600">${percentage}%</td>
       <td class="px-3 py-2 flex space-x-2">
-        <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded"
+        <button class="edit-btn"
           data-edit="${studentData.student_id}">Edit</button>
-        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
+        <button class="delete-btn"
           data-delete="${studentData.student_id}">Delete</button>
       </td>
     `;

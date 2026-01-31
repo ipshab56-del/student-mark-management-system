@@ -42,13 +42,11 @@ export function renderStudentTable(students) {
       <td class="px-3 py-2">${student.email}</td>
       <td class="px-3 py-2">${student.course}</td>
       <td class="px-3 py-2">${student.year}</td>
-      <td class="px-3 py-2 min-w-max">
-        <div class="flex gap-2 items-center justify-start h-full">
-          <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm py-1.5 px-3 rounded transition-colors inline-block"
-            data-edit="${student.id}" title="Edit">Edit</button>
-          <button class="bg-red-500 hover:bg-red-600 text-white text-sm py-1.5 px-3 rounded transition-colors inline-block"
-            data-delete="${student.id}" title="Delete">Delete</button>
-        </div>
+      <td class="flex gap-2">
+        <button class="edit-btn"
+          data-edit="${student.id}" title="Edit">Edit</button>
+        <button class="delete-btn"
+          data-delete="${student.id}" title="Delete">Delete</button>
       </td>
     `;
 

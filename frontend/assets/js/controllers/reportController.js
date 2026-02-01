@@ -5,11 +5,12 @@ import { apiTeacherGetAll } from "../services/teacherService.js";
 import { exportToCSV, exportToPDF, exportProfileToCSV, exportProfileToPDF } from "../utils/exportTools.js";
 
 let allReportData = []; // Store all data for filtering
+let filteredData = []; // Store currently filtered data
 
 export function initReportController() {
   console.log("CONTROLLER: report controller initialized");
   loadReport();
-  setupSearch();
+  setupAdvancedSearch();
   setupExportButtons();
   setupSortDropdown();
 }
@@ -21,6 +22,37 @@ function setupSearch() {
   searchInput.addEventListener("input", debounce(() => {
     filterReportTable(searchInput.value.trim());
   }, 300));
+}
+
+function setupAdvancedSearch() {
+  const searchInput = document.getElementById('reportSearch');
+  const courseFilter = document.getElementById('courseFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  const gradeFilter = document.getElementById('gradeFilter');
+  const feeStatusFilter = document.getElementById('feeStatusFilter');
+  const clearFilters = document.getElementById('clearFilters');
+  
+  const applyFilters = debounce(() => {
+    applyAdvancedFilters();
+  }, 300);
+  
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
+  if (courseFilter) courseFilter.addEventListener('change', applyFilters);
+  if (yearFilter) yearFilter.addEventListener('change', applyFilters);
+  if (gradeFilter) gradeFilter.addEventListener('change', applyFilters);
+  if (feeStatusFilter) feeStatusFilter.addEventListener('change', applyFilters);
+  
+  if (clearFilters) {
+    clearFilters.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      if (courseFilter) courseFilter.value = '';
+      if (yearFilter) yearFilter.value = '';
+      if (gradeFilter) gradeFilter.value = '';
+      if (feeStatusFilter) feeStatusFilter.value = '';
+      document.getElementById('sortBy').value = '';
+      applyAdvancedFilters();
+    });
+  }
 }
 
 function debounce(func, wait) {
@@ -125,6 +157,11 @@ async function loadReport() {
       allReportData.push(rowData);
       tbody.appendChild(row);
     });
+    
+    // Populate filter dropdowns
+    populateFilterDropdowns();
+    filteredData = [...allReportData];
+    updateResultsCount();
   } catch (error) {
     console.error("Error loading report data:", error);
     tbody.innerHTML = '<tr><td colspan="10">Error loading report data. Please try again.</td></tr>';
@@ -329,7 +366,7 @@ function setupExportButtons() {
         {key: 'core', label: 'Core'},
         {key: 'percentage', label: 'Overall %'}
       ];
-      exportToCSV('student-reports.csv', allReportData, columns);
+      exportToCSV('student-reports.csv', filteredData, columns);
     };
   }
   
@@ -344,7 +381,7 @@ function setupExportButtons() {
             </tr>
           </thead>
           <tbody>
-            ${allReportData.map(data => `
+            ${filteredData.map(data => `
               <tr>
                 <td>${data.id}</td><td>${data.name}</td><td>${data.email}</td>
                 <td>${data.course}</td><td>${data.year}</td><td>${data.mathematics}</td>
@@ -366,13 +403,13 @@ function setupSortDropdown() {
   sortSelect.addEventListener('change', () => {
     const sortValue = sortSelect.value;
     if (!sortValue) {
-      renderTable(allReportData);
+      renderTable(filteredData);
       return;
     }
     
     const [sortBy, direction] = sortValue.split('-');
     
-    const sortedData = [...allReportData].sort((a, b) => {
+    const sortedData = [...filteredData].sort((a, b) => {
       let aVal = a[sortBy];
       let bVal = b[sortBy];
       
@@ -401,4 +438,87 @@ function renderTable(data) {
   data.forEach(item => {
     tbody.appendChild(item.element);
   });
+  updateResultsCount();
+}
+
+function populateFilterDropdowns() {
+  const courseFilter = document.getElementById('courseFilter');
+  const yearFilter = document.getElementById('yearFilter');
+  
+  if (courseFilter) {
+    const courses = [...new Set(allReportData.map(item => item.course))].sort();
+    courseFilter.innerHTML = '<option value="">All Courses</option>';
+    courses.forEach(course => {
+      courseFilter.innerHTML += `<option value="${course}">${course}</option>`;
+    });
+  }
+  
+  if (yearFilter) {
+    const years = [...new Set(allReportData.map(item => item.year))].sort();
+    yearFilter.innerHTML = '<option value="">All Years</option>';
+    years.forEach(year => {
+      yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+    });
+  }
+}
+
+function getGradeFromPercentage(percentage) {
+  if (percentage === '-') return 'incomplete';
+  const num = parseFloat(percentage.replace('%', ''));
+  if (num >= 90) return 'A';
+  if (num >= 80) return 'B';
+  if (num >= 70) return 'C';
+  if (num >= 60) return 'D';
+  return 'F';
+}
+
+function getFeeStatus(data) {
+  if (data.pendingFees > 0) {
+    const hasOverdue = data.feesData.some(fee => fee.status === 'overdue');
+    return hasOverdue ? 'overdue' : 'pending';
+  }
+  return 'paid';
+}
+
+function applyAdvancedFilters() {
+  const searchTerm = document.getElementById('reportSearch')?.value.toLowerCase() || '';
+  const courseFilter = document.getElementById('courseFilter')?.value || '';
+  const yearFilter = document.getElementById('yearFilter')?.value || '';
+  const gradeFilter = document.getElementById('gradeFilter')?.value || '';
+  const feeStatusFilter = document.getElementById('feeStatusFilter')?.value || '';
+  
+  filteredData = allReportData.filter(data => {
+    // Text search
+    const matchesSearch = !searchTerm || 
+      data.name.toLowerCase().includes(searchTerm) ||
+      data.id.toString().includes(searchTerm) ||
+      data.email.toLowerCase().includes(searchTerm);
+    
+    // Course filter
+    const matchesCourse = !courseFilter || data.course === courseFilter;
+    
+    // Year filter
+    const matchesYear = !yearFilter || data.year.toString() === yearFilter;
+    
+    // Grade filter
+    const matchesGrade = !gradeFilter || getGradeFromPercentage(data.percentage) === gradeFilter;
+    
+    // Fee status filter
+    const matchesFeeStatus = !feeStatusFilter || getFeeStatus(data) === feeStatusFilter;
+    
+    return matchesSearch && matchesCourse && matchesYear && matchesGrade && matchesFeeStatus;
+  });
+  
+  renderTable(filteredData);
+}
+
+function updateResultsCount() {
+  const countElement = document.getElementById('resultsCount');
+  if (countElement) {
+    const total = allReportData.length;
+    const filtered = filteredData.length;
+    countElement.textContent = filtered === total ? 
+      `Showing ${total} students` : 
+      `Showing ${filtered} of ${total} students`;
+  }
 }

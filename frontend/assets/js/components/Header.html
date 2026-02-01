@@ -1,5 +1,6 @@
 <header>
-  <nav>
+  <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+  <nav id="mainNav">
     <a href="/" data-link>
      Home
     </a>
@@ -19,4 +20,10 @@
        Reports
     </a>
   </nav>
+  <script>
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('mobile-menu-open');
+    }
+  </script>
 </header>

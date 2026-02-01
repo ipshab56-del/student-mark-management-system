@@ -1,28 +1,48 @@
 <div style="padding: 20px; text-align: center; width: 100%; box-sizing: border-box;">
   <h2>Student Reports</h2>
-  <div style="margin-bottom: 20px; display: flex; justify-content: center; align-items: flex-end; gap: 20px;">
-    <div style="flex: 0 0 600px;">
-      <input type="text" id="reportSearch" placeholder="Search by name, ID, email, course, or year..." autocomplete="off" style="width: 100%; padding: 12px; border-radius: 8px;" />
-      <div style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Type to filter the report table</div>
-    </div>
-    <div style="display: flex; gap: 10px;">
-      <select id="sortBy" style="padding: 10px;">
-        <option value="">Sort By</option>
-        <option value="name-asc">Name (A-Z)</option>
-        <option value="name-desc">Name (Z-A)</option>
-        <option value="id-asc">Student ID (Low-High)</option>
-        <option value="id-desc">Student ID (High-Low)</option>
-        <option value="course-asc">Course (A-Z)</option>
-        <option value="course-desc">Course (Z-A)</option>
-        <option value="year-asc">Year (Low-High)</option>
-        <option value="year-desc">Year (High-Low)</option>
-        <option value="percentage-asc">Overall % (Low-High)</option>
-        <option value="percentage-desc">Overall % (High-Low)</option>
-      </select>
-      <button id="exportReportCSV" style="padding: 10px 20px;">Export CSV</button>
-      <button id="exportReportPDF" style="padding: 10px 20px;">Export PDF</button>
-    </div>
+  <div class="search-filters">
+    <input type="text" id="reportSearch" placeholder="Search by name, ID, email..." />
+    <select id="courseFilter">
+      <option value="">All Courses</option>
+    </select>
+    <select id="yearFilter">
+      <option value="">All Years</option>
+    </select>
+    <select id="gradeFilter">
+      <option value="">All Grades</option>
+      <option value="A">A Grade (90-100%)</option>
+      <option value="B">B Grade (80-89%)</option>
+      <option value="C">C Grade (70-79%)</option>
+      <option value="D">D Grade (60-69%)</option>
+      <option value="F">F Grade (Below 60%)</option>
+      <option value="incomplete">Incomplete</option>
+    </select>
+    <select id="feeStatusFilter">
+      <option value="">All Fee Status</option>
+      <option value="paid">Paid</option>
+      <option value="pending">Pending</option>
+      <option value="overdue">Overdue</option>
+    </select>
   </div>
+  <div style="margin-bottom: 20px; display: flex; justify-content: center; align-items: flex-end; gap: 10px; flex-wrap: wrap;">
+    <select id="sortBy" style="padding: 10px;">
+      <option value="">Sort By</option>
+      <option value="name-asc">Name (A-Z)</option>
+      <option value="name-desc">Name (Z-A)</option>
+      <option value="id-asc">Student ID (Low-High)</option>
+      <option value="id-desc">Student ID (High-Low)</option>
+      <option value="course-asc">Course (A-Z)</option>
+      <option value="course-desc">Course (Z-A)</option>
+      <option value="year-asc">Year (Low-High)</option>
+      <option value="year-desc">Year (High-Low)</option>
+      <option value="percentage-asc">Overall % (Low-High)</option>
+      <option value="percentage-desc">Overall % (High-Low)</option>
+    </select>
+    <button id="clearFilters" style="padding: 10px 20px;">Clear Filters</button>
+    <button id="exportReportCSV" style="padding: 10px 20px;">Export CSV</button>
+    <button id="exportReportPDF" style="padding: 10px 20px;">Export PDF</button>
+  </div>
+  <div id="resultsCount" style="margin-bottom: 10px; font-size: 14px; opacity: 0.8;"></div>
   <table id="reportTable" class="reports-table">
     <thead id="reportTableHead">
       <tr>

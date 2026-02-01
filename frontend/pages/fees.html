@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="layout">
   <div class="form-section">
     <h2>Add New Fee</h2>
@@ -33,6 +34,64 @@
     <p id="noFees" style="display:none;">No fees found. Add one above.</p>
     <div id="feesTableContainer">
       <table>
+=======
+<div class="container mx-auto p-8 max-w-4xl min-h-screen fees-page">
+  <h1 class="text-4xl font-bold text-center mb-8">Fee Management</h1>
+
+  <div class="flex space-x-4">
+    <div class="w-2\/5 pr-4">
+      <h1 class="text-2xl font-bold text-gray-700 mb-4"> Add New Fee</h1>
+      <form id="feeForm" class="space-y-6">
+        <div class="grid grid-cols-1 md\:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Student</label>
+            <select id="studentId" class="input" required>
+              <option value="">Select Student</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Amount</label>
+            <input type="number" id="amount" class="input" step="0.01" required>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md\:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+            <input type="date" id="dueDate" class="input" required>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+            <select id="status" class="input">
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="overdue">Overdue</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+          <input type="text" id="description" class="input" placeholder="Fee description">
+        </div>
+        <div class="flex gap-4">
+          <button type="submit" class="btn btn-primary flex items-center gap-2">
+            <span>➕</span> Add Fee
+          </button>
+          <button type="button" id="cancelEdit" class="btn btn-muted" style="display: none;">
+            ❌ Cancel
+          </button>
+        </div>
+        <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mt-4" id="totalFeeSection" style="display: none;">
+          <p class="text-lg font-bold text-gray-700">Total Amount Due: <span class="text-blue-600" id="totalFeeAmount">$0.00</span></p>
+        </div>
+      </form>
+    </div>
+    <div class="w-3\/5 pl-4">
+      <h2 class="text-xl font-bold text-gray-700 mb-4 flex items-center gap-2"> Fees List</h2>
+      <p id="noFees" class="text-gray-600 text-center py-8" style="display:none;">
+        No fees found. Add one above.
+      </p>
+      <table class="table" style="width:100%;">
+>>>>>>> d07721f790f9179a7df6713a1dffe36680b7df67
         <thead>
           <tr>
             <th>ID</th>

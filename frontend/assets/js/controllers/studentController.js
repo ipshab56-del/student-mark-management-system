@@ -92,9 +92,9 @@ export function initStudentController() {
 
 // Fetch all student data from the API and update the user interface
 export async function loadStudents() {
-  const table = $("studentsTableContainer");
+  const tableBody = $("studentsTableBody");
 
-  if (!table) return; // safety guard
+  if (!tableBody) return; // safety guard
 
   const students = await apiGetAll();
 

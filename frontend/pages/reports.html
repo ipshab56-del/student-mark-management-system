@@ -1,55 +1,53 @@
-<<<<<<< HEAD
-<div class="layout">
-  <div class="form-section">
-    <h2>📋 Report Card</h2>
-    <div>
-      <input type="text" id="reportSearch" placeholder="Search by name, ID, email, course, or year..." autocomplete="off" />
-      <div>Type to filter the report table</div>
+<div style="padding: 20px; text-align: center; width: 100%; box-sizing: border-box;">
+  <h2>Student Reports</h2>
+  <div style="margin-bottom: 20px; display: flex; justify-content: center; align-items: flex-end; gap: 20px;">
+    <div style="flex: 0 0 600px;">
+      <input type="text" id="reportSearch" placeholder="Search by name, ID, email, course, or year..." autocomplete="off" style="width: 100%; padding: 12px; border-radius: 8px;" />
+      <div style="margin-top: 5px; font-size: 14px; opacity: 0.8;">Type to filter the report table</div>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <select id="sortBy" style="padding: 10px;">
+        <option value="">Sort By</option>
+        <option value="name-asc">Name (A-Z)</option>
+        <option value="name-desc">Name (Z-A)</option>
+        <option value="id-asc">Student ID (Low-High)</option>
+        <option value="id-desc">Student ID (High-Low)</option>
+        <option value="course-asc">Course (A-Z)</option>
+        <option value="course-desc">Course (Z-A)</option>
+        <option value="year-asc">Year (Low-High)</option>
+        <option value="year-desc">Year (High-Low)</option>
+        <option value="percentage-asc">Overall % (Low-High)</option>
+        <option value="percentage-desc">Overall % (High-Low)</option>
+      </select>
+      <button id="exportReportCSV" style="padding: 10px 20px;">Export CSV</button>
+      <button id="exportReportPDF" style="padding: 10px 20px;">Export PDF</button>
     </div>
   </div>
-  <div class="table-section">
-    <table id="reportTable">
-=======
-<!-- Full Screen Data Table -->
-<div class="report-fullscreen">
-  <h2 class="report-card-heading">📋 Report Card</h2>
+  <table id="reportTable" class="reports-table">
+    <thead id="reportTableHead">
+      <tr>
+        <th>Student ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Course</th>
+        <th>Year</th>
+        <th>Mathematics</th>
+        <th>Literature</th>
+        <th>Core</th>
+        <th>Overall %</th>
+        <th>Profile</th>
+      </tr>
+    </thead>
+    <tbody id="reportTableBody"></tbody>
+  </table>
+</div>
 
-  <!-- Search Bar Container -->
-  <div class="report-search-container">
-    <div class="search-wrapper">
-      <input
-        type="text"
-        id="reportSearch"
-        class="search-input"
-        placeholder="Search by name, ID, email, course, or year..."
-        autocomplete="off"
-      />
-      <div class="search-icon">
-        🔍
-      </div>
+<!-- Modal for student profile details -->
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="modalProfileContent">
+      <!-- Profile details will be loaded here -->
     </div>
-    <div class="search-hint">
-      Type to filter the report table
-    </div>
-  </div>
-
-  <div class="report-table-container">
-    <table class="table report-table" id="reportTable">
->>>>>>> d07721f790f9179a7df6713a1dffe36680b7df67
-      <thead id="reportTableHead">
-        <tr>
-          <th>Student ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Course</th>
-          <th>Year</th>
-          <th>Mathematics</th>
-          <th>Literature</th>
-          <th>Core</th>
-          <th>Overall %</th>
-        </tr>
-      </thead>
-      <tbody id="reportTableBody"></tbody>
-    </table>
   </div>
 </div>

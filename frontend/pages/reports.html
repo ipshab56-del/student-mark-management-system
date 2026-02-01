@@ -1,28 +1,13 @@
-<!-- Full Screen Data Table -->
-<div class="report-fullscreen">
-  <h2 class="report-card-heading">📋 Report Card</h2>
-  
-  <!-- Search Bar Container -->
-  <div class="report-search-container">
-    <div class="search-wrapper">
-      <input 
-        type="text" 
-        id="reportSearch" 
-        class="search-input" 
-        placeholder="Search by name, ID, email, course, or year..."
-        autocomplete="off"
-      />
-      <div class="search-icon">
-        🔍
-      </div>
-    </div>
-    <div class="search-hint">
-      Type to filter the report table
+<div class="layout">
+  <div class="form-section">
+    <h2>📋 Report Card</h2>
+    <div>
+      <input type="text" id="reportSearch" placeholder="Search by name, ID, email, course, or year..." autocomplete="off" />
+      <div>Type to filter the report table</div>
     </div>
   </div>
-  
-  <div class="report-table-container">
-    <table class="table report-table" id="reportTable">
+  <div class="table-section">
+    <table id="reportTable">
       <thead id="reportTableHead">
         <tr>
           <th>Student ID</th>
@@ -36,8 +21,7 @@
           <th>Overall %</th>
         </tr>
       </thead>
-      <tbody id="reportTableBody">
-      </tbody>
+      <tbody id="reportTableBody"></tbody>
     </table>
   </div>
 </div>

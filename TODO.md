@@ -1,8 +1,8 @@
-# TODO: Fix Form and Table Layout Alignment
+# TODO: Remove CSS Files and Tailwind CSS
 
-## Steps to Complete:
-- [x] Update frontend/assets/css/style.css: Change .table-section display from block to flex
-- [x] Update frontend/pages/teachers.html: Swap form and table sections, change flex-2 to flex-1
-- [x] Update frontend/pages/marks.html: Swap form and table sections
-- [x] Update frontend/pages/fees.html: Swap form and table sections
-- [ ] Test the pages to ensure layout is correct
+- [x] Delete all CSS files in frontend/assets/css/ directory
+- [x] Remove Tailwind CSS script from frontend/pages/students.html
+- [x] Remove Tailwind CSS script from frontend/pages/index.html
+- [x] Remove all CSS classes from all HTML pages
+- [x] Remove inline styles from all pages
+- [x] Clean up Header and Footer components

@@ -90,117 +90,68 @@ function displayAllProfiles(students, allMarks, allFees, teachers) {
 
 // Display student details modal
 function displayStudentDetailsModal(student, studentMarks, studentFees, teachers) {
-  const modalOverlay = document.createElement("div");
-  modalOverlay.className = "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4";
+  const modal = document.getElementById('profileModal');
+  const modalContent = document.getElementById('modalProfileContent');
   
-  const modal = document.createElement("div");
-  modal.className = "bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto";
-  modal.innerHTML = `
-    <div class="sticky top-0 bg-indigo-600 text-white p-4 flex justify-between items-center">
-      <h2 class="text-2xl font-bold">${student.name} - Student Details</h2>
-      <button class="text-white text-2xl hover:text-gray-200" id="closeModal">&times;</button>
-    </div>
-
-    <div class="p-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 bg-indigo-50 p-4 rounded">
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Student ID</label>
-          <p class="mt-1 text-lg font-bold text-indigo-600">${student.id}</p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Name</label>
-          <p class="mt-1 text-lg font-bold">${student.name}</p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Email</label>
-          <p class="mt-1 text-sm">${student.email}</p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Course</label>
-          <p class="mt-1 text-lg font-bold">${student.course}</p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700">Year</label>
-          <p class="mt-1 text-lg font-bold">${student.year}</p>
-        </div>
+  modalContent.innerHTML = `
+    <div class="profile-info">
+      <h3>Student Profile Details</h3>
+      <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px;">
+        <p><strong>ID:</strong> ${student.id}</p>
+        <p><strong>Name:</strong> ${student.name}</p>
+        <p><strong>Email:</strong> ${student.email}</p>
+        <p><strong>Course:</strong> ${student.course}</p>
+        <p><strong>Year:</strong> ${student.year}</p>
       </div>
-
-      <h3 class="text-xl font-bold mb-4 text-indigo-600">Academic Marks</h3>
-      <div id="marksSection" class="mb-8 overflow-x-auto">
-        <table class="w-full border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="px-4 py-2 border text-left">Subject</th>
-              <th class="px-4 py-2 border text-left">Marks</th>
-              <th class="px-4 py-2 border text-left">Teacher</th>
-              <th class="px-4 py-2 border text-left">Date</th>
-            </tr>
-          </thead>
-          <tbody id="marksTableBody"></tbody>
-        </table>
+      
+      <h3>Academic Marks</h3>
+      <div style="margin-bottom: 20px;">
+        ${studentMarks.length === 0 ? 
+          '<p>No marks recorded</p>' : 
+          studentMarks.map(mark => `
+            <div style="padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px;">
+              <p><strong>Mathematics:</strong> ${mark.mathematics || 'N/A'}</p>
+              <p><strong>Literature:</strong> ${mark.literature || 'N/A'}</p>
+              <p><strong>Core:</strong> ${mark.core || 'N/A'}</p>
+              <p><strong>Percentage:</strong> ${mark.percentage || 'N/A'}%</p>
+            </div>
+          `).join('')
+        }
       </div>
-
-      <h3 class="text-xl font-bold mb-4 text-indigo-600">Fee Records</h3>
-      <div id="feesSection" class="mb-8 overflow-x-auto">
-        <table class="w-full border border-gray-300">
-          <thead>
-            <tr class="bg-gray-100">
-              <th class="px-4 py-2 border text-left">Amount</th>
-              <th class="px-4 py-2 border text-left">Due Date</th>
-              <th class="px-4 py-2 border text-left">Status</th>
-              <th class="px-4 py-2 border text-left">Description</th>
-              <th class="px-4 py-2 border text-left">Date</th>
-            </tr>
-          </thead>
-          <tbody id="feesTableBody"></tbody>
-        </table>
+      
+      <h3>Fee Records</h3>
+      <div>
+        ${studentFees.length === 0 ? 
+          '<p>No fee records</p>' : 
+          studentFees.map(fee => `
+            <div style="padding: 10px; margin: 5px 0; border: 1px solid #ddd; border-radius: 5px;">
+              <p><strong>Amount:</strong> $${fee.amount}</p>
+              <p><strong>Due Date:</strong> ${fee.due_date}</p>
+              <p><strong>Status:</strong> ${fee.status}</p>
+              <p><strong>Description:</strong> ${fee.description || 'N/A'}</p>
+            </div>
+          `).join('')
+        }
       </div>
     </div>
   `;
-
-  modalOverlay.appendChild(modal);
-  document.body.appendChild(modalOverlay);
-
-  modal.querySelector("#closeModal").addEventListener("click", () => modalOverlay.remove());
   
-  modalOverlay.addEventListener("click", (e) => {
-    if (e.target === modalOverlay) modalOverlay.remove();
-  });
-
-  // Fill marks and fees tables
-  const marksTableBody = modal.querySelector("#marksTableBody");
-  if (studentMarks.length === 0) {
-    marksTableBody.innerHTML = "<tr><td colspan='4' class='px-4 py-2 text-gray-500'>No marks found</td></tr>";
-  } else {
-    studentMarks.forEach(mark => {
-      const teacher = teachers.find(t => t.subject.toLowerCase() === mark.subject.toLowerCase());
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="px-4 py-2 border">${mark.subject}</td>
-        <td class="px-4 py-2 border">${mark.marks}</td>
-        <td class="px-4 py-2 border">${teacher ? teacher.name : "N/A"}</td>
-        <td class="px-4 py-2 border">${mark.created_at || "N/A"}</td>
-      `;
-      marksTableBody.appendChild(row);
-    });
+  modal.style.display = 'block';
+  
+  // Add close functionality after modal is shown
+  const closeBtn = modal.querySelector('.close');
+  if (closeBtn) {
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+    };
   }
-
-  const feesTableBody = modal.querySelector("#feesTableBody");
-  if (studentFees.length === 0) {
-    feesTableBody.innerHTML = "<tr><td colspan='5' class='px-4 py-2 text-gray-500'>No fees found</td></tr>";
-  } else {
-    studentFees.forEach(fee => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="px-4 py-2 border">${fee.amount}</td>
-        <td class="px-4 py-2 border">${fee.due_date}</td>
-        <td class="px-4 py-2 border">${fee.status}</td>
-        <td class="px-4 py-2 border">${fee.description || "N/A"}</td>
-        <td class="px-4 py-2 border">${fee.created_at || "N/A"}</td>
-      `;
-      feesTableBody.appendChild(row);
-    });
-  }
+  
+  // Close when clicking outside
+  modal.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
 }
 
 // Show error message

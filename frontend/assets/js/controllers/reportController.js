@@ -26,29 +26,17 @@ function setupSearch() {
 
 function setupAdvancedSearch() {
   const searchInput = document.getElementById('reportSearch');
-  const courseFilter = document.getElementById('courseFilter');
-  const yearFilter = document.getElementById('yearFilter');
-  const gradeFilter = document.getElementById('gradeFilter');
-  const feeStatusFilter = document.getElementById('feeStatusFilter');
   const clearFilters = document.getElementById('clearFilters');
-  
+
   const applyFilters = debounce(() => {
     applyAdvancedFilters();
   }, 300);
-  
+
   if (searchInput) searchInput.addEventListener('input', applyFilters);
-  if (courseFilter) courseFilter.addEventListener('change', applyFilters);
-  if (yearFilter) yearFilter.addEventListener('change', applyFilters);
-  if (gradeFilter) gradeFilter.addEventListener('change', applyFilters);
-  if (feeStatusFilter) feeStatusFilter.addEventListener('change', applyFilters);
-  
+
   if (clearFilters) {
     clearFilters.addEventListener('click', () => {
       if (searchInput) searchInput.value = '';
-      if (courseFilter) courseFilter.value = '';
-      if (yearFilter) yearFilter.value = '';
-      if (gradeFilter) gradeFilter.value = '';
-      if (feeStatusFilter) feeStatusFilter.value = '';
       document.getElementById('sortBy').value = '';
       applyAdvancedFilters();
     });
@@ -157,9 +145,7 @@ async function loadReport() {
       allReportData.push(rowData);
       tbody.appendChild(row);
     });
-    
-    // Populate filter dropdowns
-    populateFilterDropdowns();
+
     filteredData = [...allReportData];
     updateResultsCount();
   } catch (error) {
@@ -444,71 +430,39 @@ function renderTable(data) {
 function populateFilterDropdowns() {
   const courseFilter = document.getElementById('courseFilter');
   const yearFilter = document.getElementById('yearFilter');
-  
+
   if (courseFilter) {
     const courses = [...new Set(allReportData.map(item => item.course))].sort();
-    courseFilter.innerHTML = '<option value="">All Courses</option>';
+    courseFilter.innerHTML = '<option value="" disabled selected>Select Course</option>';
     courses.forEach(course => {
       courseFilter.innerHTML += `<option value="${course}">${course}</option>`;
     });
   }
-  
+
   if (yearFilter) {
     const years = [...new Set(allReportData.map(item => item.year))].sort();
-    yearFilter.innerHTML = '<option value="">All Years</option>';
+    yearFilter.innerHTML = '<option value="" disabled selected>Select Year</option>';
     years.forEach(year => {
       yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
     });
   }
 }
 
-function getGradeFromPercentage(percentage) {
-  if (percentage === '-') return 'incomplete';
-  const num = parseFloat(percentage.replace('%', ''));
-  if (num >= 90) return 'A';
-  if (num >= 80) return 'B';
-  if (num >= 70) return 'C';
-  if (num >= 60) return 'D';
-  return 'F';
-}
 
-function getFeeStatus(data) {
-  if (data.pendingFees > 0) {
-    const hasOverdue = data.feesData.some(fee => fee.status === 'overdue');
-    return hasOverdue ? 'overdue' : 'pending';
-  }
-  return 'paid';
-}
 
 function applyAdvancedFilters() {
   const searchTerm = document.getElementById('reportSearch')?.value.toLowerCase() || '';
-  const courseFilter = document.getElementById('courseFilter')?.value || '';
-  const yearFilter = document.getElementById('yearFilter')?.value || '';
-  const gradeFilter = document.getElementById('gradeFilter')?.value || '';
-  const feeStatusFilter = document.getElementById('feeStatusFilter')?.value || '';
-  
+
   filteredData = allReportData.filter(data => {
     // Text search
-    const matchesSearch = !searchTerm || 
+    const matchesSearch = !searchTerm ||
       data.name.toLowerCase().includes(searchTerm) ||
       data.id.toString().includes(searchTerm) ||
       data.email.toLowerCase().includes(searchTerm);
-    
-    // Course filter
-    const matchesCourse = !courseFilter || data.course === courseFilter;
-    
-    // Year filter
-    const matchesYear = !yearFilter || data.year.toString() === yearFilter;
-    
-    // Grade filter
-    const matchesGrade = !gradeFilter || getGradeFromPercentage(data.percentage) === gradeFilter;
-    
-    // Fee status filter
-    const matchesFeeStatus = !feeStatusFilter || getFeeStatus(data) === feeStatusFilter;
-    
-    return matchesSearch && matchesCourse && matchesYear && matchesGrade && matchesFeeStatus;
+
+    return matchesSearch;
   });
-  
+
   renderTable(filteredData);
 }
 

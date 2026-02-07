@@ -4,6 +4,7 @@ import { initMarkController } from "../controllers/markController.js";
 import { FeeController } from "../controllers/feeController.js";
 import { initReportController } from "../controllers/reportController.js";
 import { initProfileController } from "../controllers/profileController.js";
+import { initEventsController } from "../controllers/eventsController.js";
 
 // Load a view into #app container
 async function loadView(path) {
@@ -86,6 +87,11 @@ export async function router() {
       console.log("=== Router: About to call initProfileController");
       initProfileController();
     }, 100);
+  }
+
+  else if (path === "/events") {
+    await loadView("/frontend/pages/events.html");
+    setTimeout(() => initEventsController(), 0);
   }
 
   else {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holidays</title>
+</head>
+<body>
+    <div id="app">
+        <div style="padding: 20px;">
+            <h1>Indian Holidays 2026</h1>
+
+            <div>
+                <div id="loading" style="display:none;">
+                    <p>Loading holidays...</p>
+                </div>
+
+                <div id="eventsContent">
+                    <table id="holidaysTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                        <thead>
+                            <tr style="background-color: #f2f2f2;">
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Date</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Holiday Name</th>
+                                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="holidaysTableBody">
+                            <!-- Holidays will be rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="error" style="display:none;">
+                    <p>Error loading holidays.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="/" data-link style="margin: 0 10px; color: #FFD700; text-decoration: none; padding: 10px 20px; border: 2px solid #FFD700; border-radius: 8px; transition: all 0.3s ease;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

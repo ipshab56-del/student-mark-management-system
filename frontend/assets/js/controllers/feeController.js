@@ -18,6 +18,40 @@ export class FeeController {
     bindEvents() {
         document.getElementById('feeForm').addEventListener('submit', (e) => this.handleSubmit(e));
         document.getElementById('cancelEdit').addEventListener('click', () => this.cancelEdit());
+        document.getElementById('studentId').addEventListener('change', (e) => this.updateTotalForStudent(e));
+    }
+
+    updateTotalForStudent(e) {
+        const studentId = parseInt(e.target.value);
+        if (!studentId) {
+            document.getElementById('totalFeeSection').style.display = 'none';
+            return;
+        }
+
+        // Get all fees and calculate total for this student
+        const allFees = document.querySelectorAll('#feesTableBody tr');
+        let studentTotal = 0;
+        
+        allFees.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const rowStudentId = cells[1] ? cells[1].textContent : '';
+            const rowAmount = cells[2] ? parseFloat(cells[2].textContent.replace('$', '')) : 0;
+            
+            // Find student name for this student ID
+            const students = Array.from(document.getElementById('studentId').options);
+            const studentName = students.find(opt => opt.value == studentId)?.textContent;
+            
+            if (rowStudentId === studentName) {
+                studentTotal += rowAmount;
+            }
+        });
+
+        // Update display
+        const totalFeeSection = document.getElementById('totalFeeSection');
+        const totalFeeAmount = document.getElementById('totalFeeAmount');
+        
+        totalFeeSection.style.display = 'block';
+        totalFeeAmount.textContent = `$${studentTotal.toFixed(2)}`;
     }
 
     async loadStudents() {
@@ -37,6 +71,7 @@ export class FeeController {
         try {
             const fees = await this.feeService.getAll();
             const students = await this.studentService.getAll();
+            this.allFees = fees;
             this.renderFeesTable(fees, students);
         } catch (error) {
             showAlert('Error loading fees', 'error');

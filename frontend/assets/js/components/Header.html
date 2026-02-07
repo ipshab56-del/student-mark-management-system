@@ -1,5 +1,6 @@
 <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-lg border-b border-white/20 p-6 mb-8 rounded-b-2xl">
-  <nav class="flex items-center justify-between">
+  <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+  <nav id="mainNav" class="flex items-center justify-between">
     <div class="flex gap-8 text-lg font-semibold">
       <a href="/" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
      Home
@@ -26,4 +27,11 @@
       </div>
     </div>
   </nav>
+  <script>
+    function toggleMobileMenu() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('mobile-menu-open');
+    }
+  </script>
 </header>
+

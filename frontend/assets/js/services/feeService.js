@@ -1,45 +1,62 @@
+const API_URL = '/api/fees';
+
+async function safeJson(res) {
+  try { return await res.json(); }
+  catch { return null; }
+}
+
+export async function apiFeeGetAll() {
+  const res = await fetch(API_URL);
+  if (!res.ok) return [];
+  return safeJson(res);
+}
+
+export async function apiFeeGetOne(id) {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) return null;
+  return safeJson(res);
+}
+
+export function apiFeeCreate(data) {
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+}
+
+export function apiFeeUpdate(id, data) {
+  return fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+}
+
+export function apiFeeDelete(id) {
+  return fetch(`${API_URL}/${id}`, {
+    method: 'DELETE'
+  });
+}
+
 export class FeeService {
-    constructor() {
-        this.baseUrl = '/api/fees';
-    }
+  async getAll() {
+    return await apiFeeGetAll();
+  }
 
-    async getAll() {
-        const response = await fetch(this.baseUrl);
-        if (!response.ok) throw new Error('Failed to fetch fees');
-        return response.json();
-    }
+  async getById(id) {
+    return await apiFeeGetOne(id);
+  }
 
-    async getById(id) {
-        const response = await fetch(`${this.baseUrl}/${id}`);
-        if (!response.ok) throw new Error('Failed to fetch fee');
-        return response.json();
-    }
+  async create(data) {
+    return await apiFeeCreate(data);
+  }
 
-    async create(feeData) {
-        const response = await fetch(this.baseUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(feeData)
-        });
-        if (!response.ok) throw new Error('Failed to create fee');
-        return response.json();
-    }
+  async update(id, data) {
+    return await apiFeeUpdate(id, data);
+  }
 
-    async update(id, feeData) {
-        const response = await fetch(`${this.baseUrl}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(feeData)
-        });
-        if (!response.ok) throw new Error('Failed to update fee');
-        return response.json();
-    }
-
-    async delete(id) {
-        const response = await fetch(`${this.baseUrl}/${id}`, {
-            method: 'DELETE'
-        });
-        if (!response.ok) throw new Error('Failed to delete fee');
-        return response.json();
-    }
+  async delete(id) {
+    return await apiFeeDelete(id);
+  }
 }

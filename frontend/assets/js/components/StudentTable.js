@@ -33,22 +33,19 @@ export function renderStudentTable(students) {
   students.forEach(student => {
     // Create a new table row element for the current student
     const row = document.createElement("tr");
-    row.className = "border-b"; // Add styling class (likely Tailwind CSS)
 
     // Populate the row with dynamic HTML content using a template literal
     row.innerHTML = `
-      <td class="px-3 py-2">${student.id}</td>
-      <td class="px-3 py-2">${student.name}</td>
-      <td class="px-3 py-2">${student.email}</td>
-      <td class="px-3 py-2">${student.course}</td>
-      <td class="px-3 py-2">${student.year}</td>
-      <td class="px-3 py-2 flex space-x-2">
-        <!-- Buttons are created with data attributes holding the student ID -->
-        <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded"
-          data-edit="${student.id}">Edit</button>
-
-        <button class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
-          data-delete="${student.id}">Delete</button>
+      <td>${student.id}</td>
+      <td>${student.name}</td>
+      <td>${student.email}</td>
+      <td>${student.course}</td>
+      <td>${student.year}</td>
+      <td>
+        <button class="edit-btn"
+          data-edit="${student.id}" title="Edit">Edit</button>
+        <button class="delete-btn"
+          data-delete="${student.id}" title="Delete">Delete</button>
       </td>
     `;
 

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profiles</title>
+</head>
+<body>
+    <div id="app">
+        <div style="padding: 20px;">
+            <h1>All Student Profiles</h1>
+            
+            <div>
+                <div id="loading" style="display:none;">
+                    <p>Loading profiles...</p>
+                </div>
+
+                <div id="profileContent">
+                    <div id="profilesContainer">
+                        <!-- Students table will be rendered here -->
+                    </div>
+                </div>
+
+                <div id="error" style="display:none;">
+                    <p>Error loading profiles.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="/students" data-link style="margin: 0 10px; color: #FFD700; text-decoration: none; padding: 10px 20px; border: 2px solid #FFD700; border-radius: 8px; transition: all 0.3s ease;">Back to Students</a>
+                <a href="/" data-link style="margin: 0 10px; color: #FFD700; text-decoration: none; padding: 10px 20px; border: 2px solid #FFD700; border-radius: 8px; transition: all 0.3s ease;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for student profile details -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalProfileContent">
+                <!-- Profile details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('profileModal');
+            const closeBtn = document.querySelector('.close');
+            
+            // Close modal when clicking X
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        // Function to show profile in modal
+        function showProfile(studentData) {
+            const modal = document.getElementById('profileModal');
+            const modalContent = document.getElementById('modalProfileContent');
+            modalContent.innerHTML = `
+                <div class="profile-info">
+                    <h3>Student Profile</h3>
+                    <p><strong>ID:</strong> ${studentData.id}</p>
+                    <p><strong>Name:</strong> ${studentData.name}</p>
+                    <p><strong>Email:</strong> ${studentData.email}</p>
+                    <p><strong>Course:</strong> ${studentData.course}</p>
+                    <p><strong>Year:</strong> ${studentData.year}</p>
+                </div>
+            `;
+            modal.style.display = 'block';
+        }
+        
+        // Make function globally available
+        window.showProfile = showProfile;
+    </script>
+</body>
+</html>

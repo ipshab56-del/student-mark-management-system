@@ -1,3 +1,4 @@
+
 body {
   scroll-behavior: smooth;
   background: url('/image.png') no-repeat center center fixed;
@@ -7,7 +8,7 @@ body {
   position: relative;
 }
 
-body::before {
+/* body::before {
   content: '';
   position: fixed;
   top: 0;
@@ -16,14 +17,14 @@ body::before {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: -1;
-}
+} */
 
 #alertContainer > div {
   transition: all 0.3s ease;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.95);
+  background: transparent;
   backdrop-filter: blur(10px);
   padding: 2.5rem;
   border-radius: 20px;
@@ -52,7 +53,7 @@ body::before {
 
 .input:focus {
   border-color: #f59e0b;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
   outline: none;
   transform: translateY(-1px);
@@ -124,8 +125,14 @@ body::before {
   table-layout: auto;
 }
 
+/* Students table - Responsive width */
+.students-table {
+  width: 100%;
+  max-width: 100%;
+}
+
 .table thead th {
-  background: rgba(245, 158, 11, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
   font-weight: 700;
   padding: 16px 20px;
@@ -135,6 +142,7 @@ body::before {
   word-wrap: break-word;
   text-align: center;
   border-right: 1px solid rgba(255,255,255,0.3);
+  text-shadow: 0 0 2px black;
 }
 
 .table thead th:last-child {
@@ -142,7 +150,7 @@ body::before {
 }
 
 .table tbody td {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
   color: white;
   padding: 14px 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -152,6 +160,8 @@ body::before {
   overflow: visible;
   text-overflow: unset;
   text-align: center;
+  text-shadow: 0 0 2px black;
+  backdrop-filter: none;
 }
 
 .table tbody td:last-child {
@@ -172,19 +182,32 @@ body::before {
   max-width: 100%;
   border-radius: 12px;
   margin: 0;
-  display: block;
+  display: flex;
+  justify-content: center;
   position: relative;
   width: 100%;
 }
 
 .table-section {
-  display: block;
+  display: flex;
   align-items: center;
-  width: 100%;
   max-width: 100%;
   position: relative;
   overflow-x: auto;
   padding: 20px;
+}
+
+.form-section {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  position: relative;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.form-table-container {
+  flex-direction: row !important;
 }
 
 .container {
@@ -335,11 +358,18 @@ h1, h2, h3 {
 }
 
 /* Home page: make outer container and nav-cards transparent to show background image */
-.container.home-page {
+
+.container.home-page, .container.profile-page {
   background: transparent !important;
   backdrop-filter: none !important;
   box-shadow: none !important;
   border: none !important;
+}
+
+.container.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container.home-page .nav-card {
@@ -351,6 +381,14 @@ h1, h2, h3 {
   min-height: 200px;
 }
 
+/* Make form and table containers transparent */
+.container.students-page, .container.teachers-page, .container.fees-page, .container.marks-page {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 /* Report Page - Full Screen Table */
 .report-title {
   margin-top: 1rem;
@@ -358,7 +396,7 @@ h1, h2, h3 {
 }
 
 .report-card-heading {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: #1f2937;
@@ -367,6 +405,7 @@ h1, h2, h3 {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: center;
+  font-family: 'Georgia', serif;
 }
 
 .report-fullscreen {
@@ -393,7 +432,7 @@ h1, h2, h3 {
 
 .report-table {
   min-width: 100%;
-  width: max-content;
+  width: 100%;
   background: transparent;
   backdrop-filter: none;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -403,15 +442,489 @@ h1, h2, h3 {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(245, 158, 11, 0.9);
+  background: rgba(0, 0, 0, 0.5);
   color: white;
+  text-shadow: 0 0 2px black;
 }
 
 .report-table tbody td {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  text-shadow: 0 0 2px black;
   backdrop-filter: none;
+}
+
+
+#footer {
+  position: relative;
+  z-index: -1;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .report-table tbody tr:hover td {
   background: rgba(245, 158, 11, 0.3);
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #fff !important;
+    /* text-shadow: 2px 2px 8px rgba(0,0,0,0.7); */
+} 
+/* Report Search Bar Styles */
+.report-search-container {
+  margin-bottom: 1.5rem;
+  padding: 0 15px;
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 50px 14px 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #f59e0b;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  transform: translateY(-1px);
+}
+
+.search-input::placeholder {
+  color: #666;
+  opacity: 0.7;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #666;
+  pointer-events: none;
+}
+
+.search-hint {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 2px black;
+}
+
+/* No results message */
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+/* Custom CSS classes to replace Tailwind */
+
+/* Layout */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.grid {
+  display: grid;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.relative {
+  position: relative;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+/* Spacing */
+.p-8 {
+  padding: 2rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-12 {
+  margin-bottom: 3rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.pl-4 {
+  padding-left: 1rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+.gap-16 {
+  gap: 4rem;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Sizing */
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.w-2\/5 {
+  width: 40%;
+}
+
+.w-3\/5 {
+  width: 60%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
+.w-12 {
+  width: 3rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.max-w-5xl {
+  max-width: 64rem;
+}
+
+.max-w-500px {
+  max-width: 500px;
+}
+
+/* Positioning */
+.top-4 {
+  top: 1rem;
+}
+
+.right-4 {
+  right: 1rem;
+}
+
+/* Typography */
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.text-gray-100 {
+  color: #f3f4f6;
+}
+
+.text-gray-600 {
+  color: #4b5563;
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.text-black {
+  color: #000000;
+}
+
+.text-amber-400 {
+  color: #fbbf24;
+}
+
+.text-blue-600 {
+  color: #2563eb;
+}
+
+/* Background */
+.bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+/* Border */
+.border-2 {
+  border-width: 2px;
+}
+
+.border-blue-200 {
+  border-color: #bfdbfe;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+/* Grid */
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Animations */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Border utilities */
+.border-b-4 {
+  border-bottom-width: 4px;
+}
+
+.border-blue-500 {
+  border-color: #3b82f6;
+}
+
+/* Block display */
+.block {
+  display: block;
+}
+
+/* Shadow */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Hover effects */
+.hover\:shadow-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Transitions */
+.transition-all {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Group hover */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+/* Backdrop blur */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Additional missing classes */
+.bg-blue-50 {
+  background-color: #eff6ff;
+}
+
+.border-2 {
+  border-width: 2px;
+}
+
+.border-blue-200 {
+  border-color: #bfdbfe;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.text-blue-600 {
+  color: #2563eb;
 }

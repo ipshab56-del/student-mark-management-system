@@ -1,22 +1,29 @@
-<header class="bg-white/90 backdrop-blur-md shadow-lg border-b border-white/20 p-6 mb-8 rounded-b-2xl">
-  <nav class="flex gap-8 text-lg font-semibold">
-    <a href="/" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-lg border-b border-white/20 p-6 mb-8 rounded-b-2xl">
+  <nav class="flex items-center justify-between">
+    <div class="flex gap-8 text-lg font-semibold">
+      <a href="/" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
      Home
     </a>
-    <a href="/students" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+      <a href="/students" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
       Students
     </a>
-    <a href="/teachers" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+      <a href="/teachers" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
       Teachers
     </a>
-    <a href="/marks" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+      <a href="/marks" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
        Marks
     </a>
-    <a href="/fees" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+      <a href="/fees" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
        Fees
     </a>
-    <a href="/reports" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105">
+      <a href="/reports" data-link class="nav-link text-blue-600 hover:text-purple-600 transition-all duration-300 hover:scale-105 relative">
        Reports
     </a>
+    </div>
+    <div class="user-profile ml-8">
+      <div class="admin-avatar w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-sm shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105" title="Admin Profile">
+        AD
+      </div>
+    </div>
   </nav>
 </header>

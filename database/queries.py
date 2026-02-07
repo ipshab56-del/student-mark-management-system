@@ -227,3 +227,63 @@ def fee_get_all():
     """).fetchall()
     conn.close()
     return [dict(row) for row in rows]
+
+
+def fee_get_one(fee_id):
+    conn = get_connection()
+    row = conn.execute(
+        "SELECT * FROM fees WHERE id = ?",
+        (fee_id,)
+    ).fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+
+def fee_create(data):
+    conn = get_connection()
+    try:
+        now = datetime.utcnow().isoformat()
+        cursor = conn.execute("""
+            INSERT INTO fees (student_id, amount, due_date, status, description, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            int(data["student_id"]),
+            float(data["amount"]),
+            data["due_date"],
+            data.get("status", "pending"),
+            data.get("description", ""),
+            now,
+            now
+        ))
+        conn.commit()
+        fee_id = cursor.lastrowid
+        return fee_get_one(fee_id)
+    finally:
+        conn.close()
+
+
+def fee_update(fee_id, data):
+    conn = get_connection()
+    fields = ", ".join(f"{k}=?" for k in data.keys())
+    values = list(data.values())
+    values.append(fee_id)
+
+    conn.execute(
+        f"UPDATE fees SET {fields}, updated_at=? WHERE id=?",
+        (*values[:-1], datetime.utcnow().isoformat(), values[-1])
+    )
+
+    conn.commit()
+    conn.close()
+    return fee_get_one(fee_id)
+
+
+def fee_delete(fee_id):
+    conn = get_connection()
+    cur = conn.execute(
+        "DELETE FROM fees WHERE id=?",
+        (fee_id,)
+    )
+    conn.commit()
+    conn.close()
+    return cur.rowcount > 0

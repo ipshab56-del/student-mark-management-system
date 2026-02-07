@@ -18,6 +18,24 @@ async function loadView(path) {
   }
 }
 
+// Update active state for navigation links based on current path
+function updateActiveNavLink() {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    // Remove active class from all links
+    link.classList.remove('active');
+    
+    // Add active class to matching link
+    if (currentPath === href || 
+        (href === '/' && (currentPath === '/' || currentPath === '/home' || currentPath === ''))) {
+      link.classList.add('active');
+    }
+  });
+}
+
 // Handle page routing based on the URL
 export async function router() {
   const path = window.location.pathname;
@@ -60,6 +78,9 @@ export async function router() {
   else {
     await loadView("/frontend/pages/404.html");
   }
+
+  // Update active navigation state after each route change
+  setTimeout(() => updateActiveNavLink(), 10);
 }
 
 // Allow SPA navigation without full page reload

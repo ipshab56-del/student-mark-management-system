@@ -71,11 +71,14 @@ export async function editMark(studentId) {
   const marks = await apiMarkGetAll();
   const studentMarks = marks.filter(m => m.student_id == studentId);
 
+  const students = getState().students;
+  const student = students.find(s => s.id == studentId);
+
   const studentData = {
     student_id: studentId,
     mathematics: studentMarks.find(m => m.subject === 'mathematics')?.marks || '',
     literature: studentMarks.find(m => m.subject === 'literature')?.marks || '',
-    core: studentMarks.find(m => m.subject === 'core')?.marks || ''
+    core: student ? studentMarks.find(m => m.subject === student.course)?.marks || '' : ''
   };
 
   setState({ markEditingId: studentId });
@@ -109,6 +112,13 @@ export async function deleteMarkAction(studentId) {
 }
 
 export async function createMarksForStudent(studentId, mathematics, literature, core) {
+  const students = getState().students;
+  const student = students.find(s => s.id == studentId);
+  if (!student) {
+    showAlert("Student not found!");
+    return;
+  }
+
   const subjects = [
     { subject: 'mathematics', marks: mathematics },
     { subject: 'literature', marks: literature },
@@ -117,9 +127,10 @@ export async function createMarksForStudent(studentId, mathematics, literature, 
 
   for (const subj of subjects) {
     if (subj.marks) {
+      const subjName = subj.subject === 'core' ? student.course : subj.subject;
       const data = {
         student_id: studentId,
-        subject: subj.subject,
+        subject: subjName,
         marks: subj.marks
       };
       const res = await apiMarkCreate(data);
@@ -139,6 +150,13 @@ export async function updateMarksForStudent(studentId, mathematics, literature, 
   const marks = await apiMarkGetAll();
   const studentMarks = marks.filter(m => m.student_id == studentId);
 
+  const students = getState().students;
+  const student = students.find(s => s.id == studentId);
+  if (!student) {
+    showAlert("Student not found!");
+    return;
+  }
+
   const subjects = [
     { subject: 'mathematics', marks: mathematics },
     { subject: 'literature', marks: literature },
@@ -146,13 +164,14 @@ export async function updateMarksForStudent(studentId, mathematics, literature, 
   ];
 
   for (const subj of subjects) {
-    const existingMark = studentMarks.find(m => m.subject === subj.subject);
+    const subjName = subj.subject === 'core' ? student.course : subj.subject;
+    const existingMark = studentMarks.find(m => m.subject === subjName);
     if (subj.marks) {
       if (existingMark) {
         // Update existing
         const data = {
           student_id: studentId,
-          subject: subj.subject,
+          subject: subjName,
           marks: subj.marks
         };
         const res = await apiMarkUpdate(existingMark.id, data);
@@ -164,7 +183,7 @@ export async function updateMarksForStudent(studentId, mathematics, literature, 
         // Create new
         const data = {
           student_id: studentId,
-          subject: subj.subject,
+          subject: subjName,
           marks: subj.marks
         };
         const res = await apiMarkCreate(data);

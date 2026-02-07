@@ -1,4 +1,5 @@
 import { $ } from "../utils/dom.js";
+import { getState } from "../state/store.js";
 
 // Store callbacks for edit and delete actions
 let onEdit = null;
@@ -36,8 +37,13 @@ export function renderMarkTable(marks) {
     studentMarks[mark.student_id].marks[mark.subject] = mark.marks;
   });
 
+  // Get students to map core subjects
+  const students = getState().students || [];
+
   Object.keys(studentMarks).forEach(studentId => {
     const studentData = studentMarks[studentId];
+    const student = students.find(s => s.id == studentId);
+    const coreMarks = student ? studentData.marks[student.course] || '-' : '-';
     const row = document.createElement("tr");
     row.className = "border-b";
 
@@ -45,9 +51,9 @@ export function renderMarkTable(marks) {
     const markValues = [
       studentData.marks.mathematics || 0,
       studentData.marks.literature || 0,
-      studentData.marks.core || 0
+      parseInt(coreMarks) || 0
     ].map(m => parseInt(m) || 0);
-    
+
     const totalMarks = markValues.reduce((sum, m) => sum + m, 0);
     const percentage = markValues.length > 0 ? ((totalMarks / (markValues.length * 100)) * 100).toFixed(2) : 0;
 
@@ -56,7 +62,7 @@ export function renderMarkTable(marks) {
       <td class="px-3 py-2">${studentData.student_name}</td>
       <td class="px-3 py-2">${studentData.marks.mathematics || '-'}</td>
       <td class="px-3 py-2">${studentData.marks.literature || '-'}</td>
-      <td class="px-3 py-2">${studentData.marks.core || '-'}</td>
+      <td class="px-3 py-2">${coreMarks || '-'}</td>
       <td class="px-3 py-2 font-bold text-blue-600">${percentage}%</td>
       <td class="px-3 py-2 flex space-x-2">
         <button class="edit-btn"

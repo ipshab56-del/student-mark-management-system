@@ -81,11 +81,11 @@ async function loadReport() {
     students.forEach((student) => {
       const studentMarks = marks.filter((m) => m.student_id === student.id);
       const studentFees = fees.filter((f) => f.student_id === student.id);
-      
+
       // Get marks by subject
       const mathematicsMarks = studentMarks.find(m => m.subject === 'mathematics')?.marks || '-';
       const literatureMarks = studentMarks.find(m => m.subject === 'literature')?.marks || '-';
-      const coreMarks = studentMarks.find(m => m.subject === 'core')?.marks || '-';
+      const coreMarks = studentMarks.find(m => m.subject === student.course)?.marks || '-';
 
       // Calculate overall percentage
       let percentage = '-';

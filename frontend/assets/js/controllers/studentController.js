@@ -130,7 +130,7 @@ export async function editStudent(id) {
 export async function updateStudent(id, data) {
   const res = await apiUpdate(id, data);
   if (res.ok) {
-    showAlert("Updated!");
+    showAlert("Student updated!");
     resetForm();
     setState({ editingId: null });
     loadStudents();
@@ -142,7 +142,7 @@ export async function deleteStudentAction(id) {
   if (!confirm("Delete this student?")) return;
   const res = await apiDelete(id);
  	if (res.ok) {
-    showAlert("Deleted!");
+    showAlert("Student deleted!");
     loadStudents();
   }
 }

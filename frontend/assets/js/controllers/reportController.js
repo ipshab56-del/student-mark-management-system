@@ -78,6 +78,12 @@ async function loadReport() {
       return;
     }
 
+    // Create teachers map by subject
+    const teachersBySubject = {};
+    teachers.forEach(teacher => {
+      teachersBySubject[teacher.subject.toLowerCase()] = teacher.name;
+    });
+
     students.forEach((student) => {
       const studentMarks = marks.filter((m) => m.student_id === student.id);
       const studentFees = fees.filter((f) => f.student_id === student.id);
@@ -87,12 +93,17 @@ async function loadReport() {
       const literatureMarks = studentMarks.find(m => m.subject === 'literature')?.marks || '-';
       const coreMarks = studentMarks.find(m => m.subject === student.course)?.marks || '-';
 
+      // Get teachers
+      const mathematicsTeacher = teachersBySubject['mathematics'] || 'N/A';
+      const literatureTeacher = teachersBySubject['literature'] || 'N/A';
+      const coreTeacher = teachersBySubject[student.course.toLowerCase()] || 'N/A';
+
       // Calculate overall percentage
       let percentage = '-';
       const hasMathematics = mathematicsMarks !== '-';
       const hasLiterature = literatureMarks !== '-';
       const hasCore = coreMarks !== '-';
-      
+
       if (hasMathematics && hasLiterature && hasCore) {
         const totalMarks = parseInt(mathematicsMarks) + parseInt(literatureMarks) + parseInt(coreMarks);
         const percentage_value = ((totalMarks / 300) * 100).toFixed(2);
@@ -112,6 +123,9 @@ async function loadReport() {
         mathematics: mathematicsMarks,
         literature: literatureMarks,
         core: coreMarks,
+        mathematicsTeacher: mathematicsTeacher,
+        literatureTeacher: literatureTeacher,
+        coreTeacher: coreTeacher,
         percentage: percentage,
         totalFees: totalFees,
         pendingFees: pendingFees,
@@ -129,9 +143,9 @@ async function loadReport() {
         <td>${student.email}</td>
         <td>${student.course}</td>
         <td>${student.year}</td>
-        <td>${mathematicsMarks}</td>
-        <td>${literatureMarks}</td>
-        <td>${coreMarks}</td>
+        <td>${mathematicsMarks}<br><small style="color: #888;">T: ${mathematicsTeacher}</small></td>
+        <td>${literatureMarks}<br><small style="color: #888;">T: ${literatureTeacher}</small></td>
+        <td>${coreMarks}<br><small style="color: #888;">T: ${coreTeacher}</small></td>
         <td>${percentage}</td>
         <td style="text-align: center;">Click to View</td>
       `;
@@ -338,7 +352,7 @@ function filterReportTable(searchTerm) {
 function setupExportButtons() {
   const csvBtn = document.getElementById('exportReportCSV');
   const pdfBtn = document.getElementById('exportReportPDF');
-  
+
   if (csvBtn) {
     csvBtn.onclick = () => {
       const columns = [
@@ -348,14 +362,17 @@ function setupExportButtons() {
         {key: 'course', label: 'Course'},
         {key: 'year', label: 'Year'},
         {key: 'mathematics', label: 'Mathematics'},
+        {key: 'mathematicsTeacher', label: 'Math Teacher'},
         {key: 'literature', label: 'Literature'},
+        {key: 'literatureTeacher', label: 'Literature Teacher'},
         {key: 'core', label: 'Core'},
+        {key: 'coreTeacher', label: 'Core Teacher'},
         {key: 'percentage', label: 'Overall %'}
       ];
       exportToCSV('student-reports.csv', filteredData, columns);
     };
   }
-  
+
   if (pdfBtn) {
     pdfBtn.onclick = () => {
       const tableHTML = `
@@ -363,7 +380,7 @@ function setupExportButtons() {
           <thead>
             <tr>
               <th>ID</th><th>Name</th><th>Email</th><th>Course</th><th>Year</th>
-              <th>Math</th><th>Literature</th><th>Core</th><th>Overall %</th>
+              <th>Math</th><th>Math Teacher</th><th>Literature</th><th>Lit Teacher</th><th>Core</th><th>Core Teacher</th><th>Overall %</th>
             </tr>
           </thead>
           <tbody>
@@ -371,7 +388,9 @@ function setupExportButtons() {
               <tr>
                 <td>${data.id}</td><td>${data.name}</td><td>${data.email}</td>
                 <td>${data.course}</td><td>${data.year}</td><td>${data.mathematics}</td>
-                <td>${data.literature}</td><td>${data.core}</td><td>${data.percentage}</td>
+                <td>${data.mathematicsTeacher}</td><td>${data.literature}</td>
+                <td>${data.literatureTeacher}</td><td>${data.core}</td>
+                <td>${data.coreTeacher}</td><td>${data.percentage}</td>
               </tr>
             `).join('')}
           </tbody>

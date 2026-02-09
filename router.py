@@ -71,6 +71,10 @@ def handle_ui_routes(handler, path):
         serve_static(handler, "image.png")
         return True
 
+    if path == "/back.png":
+        serve_static(handler, "back.png")
+        return True
+
     if path == "/openapi.yaml":
         serve_static(handler, "openapi.yaml")
         return True
